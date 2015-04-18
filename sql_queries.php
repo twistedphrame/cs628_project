@@ -1,6 +1,4 @@
 <?php
-    include("dbc.php");
-    
     class PRODUCT_TABLE {
       public static $NAME = 'product';
       public static $PROD_ID = 'productid';
