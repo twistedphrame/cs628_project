@@ -22,6 +22,23 @@
     
 
     /**
+     * Creates a drop down with the given $name
+     * and selects the given $selected value.
+     * The created drop down goes from 1 to 100.
+     */
+    function quantityDropDown($name, $selected) {
+        echo "<select id=\"$name\" name=\"$name\" >";
+        foreach (range(1, 100) as $number) {
+            echo '<option value="'.$number.'"';
+            if($number === $selected) {
+                echo ' selected = "selected"';
+            }
+            echo '>'.$number.'</option>';
+        }
+        echo "</select>";
+    }
+    
+    /**
      * Gets information about a the product with the given $productID
      * If it cannot be found an empty array is returned
      * This information includes:
