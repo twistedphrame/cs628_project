@@ -36,16 +36,17 @@
         
         //what do I do when i get a response back
         xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-                if (xhr.status == 200 && xhr.status < 300) {
-                        window.location.replace('shopping_cart.php', '_SELF')
-                }
-        }
-        xhr.open('POST', 'add_2_cart.php');
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.send("productid=" + classID);
-        xhr.send("quantity=" + quantity);
-    }
+						if (xhr.readyState === 4) {
+										if (xhr.status == 200 && xhr.status < 300) {
+														window.location.replace('shopping_cart.php', '_SELF')
+										}
+						}
+				}
+				xhr.open('POST', 'add_2_cart.php');
+				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				xhr.send("productid=" + classID);
+				xhr.send("quantity=" + quantity);
+		}
 
 </script>
     
@@ -65,21 +66,21 @@
                 <td>
                     <form>
                         <table>
-                    <?php
-                        $percOff = $product[DISCOUNT_TABLE::$PERC_OFF];
-                        if($percOff != NULL && $percOff > 0) {
-                            echo '<tr><td>Normal Cost:</td><td>'.$product[PRODUCT_TABLE::$PRICE].'</td></tr>';
-                            echo '<tr><td>Discount:</td><td>'.$percOff.'%</td></tr>';
-                            echo '<tr><td>Actual Cost:</td><td>' . ($product[PRODUCT_TABLE::$PRICE] * ($percOff/100.0)) . '</td></tr>';
-                        } else {
-                            echo '<tr><td>Cost:</td><td>'.$product[PRODUCT_TABLE::$PRICE].'</td></tr>';
-                        }
-                        echo '<tr><td>Quantity:</td><td>'.quantityDropDown($QUANTITY, $selected).'</tr></tr>';
-                        echo "<tr><tdcolspan='2'><input type=\"button\" \n";
-			echo 'onclick="addToCart(\''.$row['class_id'].'\',\''.$row['subject'].' '.$row['code'].'-'.$row['section'].'\',\''.$row['subject'].'\')" ';
-			echo "value=\"ADD TO CART\" /></td></tr>\n";
-                        echo '<tr><td colspan="2">ADD TO CART</td></tr>';
-                    ?>
+												<?php
+														$percOff = $product[DISCOUNT_TABLE::$PERC_OFF];
+														if($percOff != NULL && $percOff > 0) {
+																echo '<tr><td>Normal Cost:</td><td>'.$product[PRODUCT_TABLE::$PRICE].'</td></tr>';
+																echo '<tr><td>Discount:</td><td>'.$percOff.'%</td></tr>';
+																echo '<tr><td>Actual Cost:</td><td>' . ($product[PRODUCT_TABLE::$PRICE] * ($percOff/100.0)) . '</td></tr>';
+														} else {
+																echo '<tr><td>Cost:</td><td>'.$product[PRODUCT_TABLE::$PRICE].'</td></tr>';
+														}
+														echo '<tr><td>Quantity:</td><td>'.quantityDropDown($QUANTITY, $selected).'</tr></tr>';
+														echo "<tr><tdcolspan='2'><input type=\"button\" \n";
+														echo 'onclick="addToCart('.$_GET[PRODUCT_TABLE::$PROD_ID].')" ';
+														echo "value=\"ADD TO CART\" /></td></tr>\n";
+														echo '<tr><td colspan="2">ADD TO CART</td></tr>';
+												?>
                         </table>
                     </form>
                 </td>
@@ -100,8 +101,7 @@
                 <td colspan='2'><h4>Features:</h4></td>
             </tr>
             <tr><td colspan='2'><?php echo $product[PRODUCT_TABLE::$FEATURES]; ?></td></tr>
-        </table>
-        
+        </table>        
     </div>
     <?php include("includes/footer.php"); ?>    
 </body>
