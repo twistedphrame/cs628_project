@@ -62,12 +62,12 @@
                 <td colspan='2'><h2><?php echo $product[PRODUCT_TABLE::$PROD_NAME]; ?></h2></td>
             </tr>
             <tr>
-                <td><img src="images/<?php echo $product[PRODUCT_TABLE::$IMAGES];?>" height="133" width="200"/></td>
+                <td><img src="images/<?php echo $product[PRODUCT_TABLE::$IMAGE];?>" height="133" width="200"/></td>
                 <td>
                     <form>
                         <table>
 												<?php
-														$percOff = $product[DISCOUNT_TABLE::$PERC_OFF];
+														$percOff = $product[DISCOUNT_TABLE::$DISCOUNT];
 														if($percOff != NULL && $percOff > 0) {
 																echo '<tr><td>Normal Cost:</td><td>'.$product[PRODUCT_TABLE::$PRICE].'</td></tr>';
 																echo '<tr><td>Discount:</td><td>'.$percOff.'%</td></tr>';
@@ -92,7 +92,7 @@
                 <td colspan='2'><?php echo "Category: "; echo $product[PRODUCT_TABLE::$CATEGORY]; ?></td>
             </tr>
             <tr>
-                <td colspan='2'><?php echo "Serial Number: "; echo $product[PRODUCT_TABLE::$SERIAL]; ?></td>
+                <td colspan='2'><?php echo "Serial Number: "; echo $product[PRODUCT_TABLE::$PROD_NUMBER]; ?></td>
             </tr>
             <tr>
                 <td colspan='2'><?php echo $product[PRODUCT_TABLE::$DESCRIPTION]; ?></td>

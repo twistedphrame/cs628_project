@@ -37,11 +37,11 @@
   class Product {
     private $productID;
     private $vendorID;
-    private $serialNum;
+    private $prod_num;
     private $category;
     private $name;
     private $description;
-    private $images;
+    private $image;
     private $features;
     private $constraints;
     private $price;
@@ -49,11 +49,11 @@
     public function Product() {
       $this->productID = NULL;
       $this->vendorID = NULL;
-      $this->serialNum = NULL;
+      $this->prod_num = NULL;
       $this->category = NULL;
       $this->name = NULL;
       $this->description = NULL;
-      $this->images = NULL;
+      $this->image = NULL;
       $this->features = NULL;
       $this->constraints = NULL;
       $this->price = NULL;
@@ -82,7 +82,7 @@
      *returns this product for method chaining.
      */
     public function setSerialNum($serial) {
-      $this->serialNum = $serial;
+      $this->prod_num = $serial;
       return $this;
     }
     
@@ -118,7 +118,7 @@
      *returns this product for method chaining.
      */
     public function setImages($images) {
-      $this->images = $images;
+      $this->image = $images;
       return $this;
     }
     
@@ -156,20 +156,20 @@
     public function insert($dbc) {
       $q = 'INSERT INTO `'.PRODUCT_TABLE::$NAME.'`(`'
                           .PRODUCT_TABLE::$VEND_ID.'`, `'
-                          .PRODUCT_TABLE::$SERIAL.'`, `'
+                          .PRODUCT_TABLE::$PROD_NUMBER.'`, `'
                           .PRODUCT_TABLE::$CATEGORY.'`, `'
                           .PRODUCT_TABLE::$PROD_NAME.'`, `'
                           .PRODUCT_TABLE::$DESCRIPTION.'`, `'
-                          .PRODUCT_TABLE::$IMAGES.'`, `'
+                          .PRODUCT_TABLE::$IMAGE.'`, `'
                           .PRODUCT_TABLE::$FEATURES.'`, `'
                           .PRODUCT_TABLE::$CONSTRAINTS.'`, `'
                           .PRODUCT_TABLE::$PRICE.'`) VALUES (\''
                           .$this->vendorID.'\',\''
-                          .$this->serialNum.'\',\''
+                          .$this->prod_num.'\',\''
                           .$this->category.'\',\''
                           .$this->name.'\',\''
                           .$this->description.'\',\''
-                          .$this->images.'\',\''
+                          .$this->image.'\',\''
                           .$this->features.'\',\''
                           .$this->constraints.'\',\''
                           .$this->price.'\')';
@@ -196,17 +196,13 @@
       }
       
       if($this->serialNum !== NULL) {
-        $array[] = PRODUCT_TABLE::$SERIAL . "='{$this->serialNum}'";
+        $array[] = PRODUCT_TABLE::$PROD_NUMBER . "='{$this->prod_num}'";
       }
       
       if($this->category !== NULL) {
         $array[] = PRODUCT_TABLE::$CATEGORY . "='{$this->category}'";
       }
-      
-      if($this->category !== NULL) {
-        $array[] = PRODUCT_TABLE::$CATEGORY . "='{$this->category}'";
-      }
-      
+            
       if($this->name !== NULL) {
         $array[] = PRODUCT_TABLE::$PROD_NAME . "='{$this->name}'";
       }
@@ -216,7 +212,7 @@
       }
       
       if($this->images !== NULL) {
-        $array[] = PRODUCT_TABLE::$IMAGES . "='{$this->images}'";
+        $array[] = PRODUCT_TABLE::$IMAGE . "='{$this->image}'";
       }
       
       if($this->features !== NULL) {
