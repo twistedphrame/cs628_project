@@ -2,24 +2,18 @@
     class PRODUCT_TABLE {
       public static $NAME = 'product';
       public static $PROD_ID = 'productid';
-      public static $VEND_ID = 'vendorID';
-      public static $SERIAL = 'serail_num';
+      public static $PROD_NAME = 'productname';
       public static $CATEGORY = 'category';
-      public static $PROD_NAME = 'name';
+      public static $VEND_ID = 'vendorID';
       public static $DESCRIPTION = 'desctription';
-      public static $IMAGES = 'images';
-      public static $FEATURES = 'features';
-      public static $CONSTRAINTS = 'constraints';
       public static $PRICE = 'price';
+      public static $PROD_NUMBER = 'productnumber';
+      public static $FEATURES = 'features';
+      public static $IMAGE = 'image';
+      public static $CONSTRAINTS = 'constraints';
+      public static $DISCOUNT = 'discount';
     }
-    
-    
-    class DISCOUNT_TABLE {
-      public static $NAME = 'discounts';
-      public static $PROD_ID = 'productid';
-      public static $PERC_OFF = 'perc_off';
-    }
-    
+
 
     /**
      * Creates a drop down with the given $name
@@ -59,21 +53,18 @@
      * param $productID - The ID for the product
      */
     function selectSingleProduct($dbc, $productID) {
-      $q = 'SELECT '.PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$PROD_ID.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$VEND_ID.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$SERIAL.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$CATEGORY.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$PROD_NAME.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$DESCRIPTION.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$IMAGES.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$FEATURES.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$CONSTRAINTS.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$PRICE.', '
-                    .DISCOUNT_TABLE::$NAME.'.'.DISCOUNT_TABLE::$PERC_OFF
-      .' FROM (SELECT '.PRODUCT_TABLE::$PROD_ID.' FROM '.PRODUCT_TABLE::$NAME.' WHERE '.PRODUCT_TABLE::$PROD_ID.' = \''.$productID.'\''
-      .' UNION SELECT '.PRODUCT_TABLE::$PROD_ID.' FROM '.DISCOUNT_TABLE::$NAME.'  WHERE '.PRODUCT_TABLE::$PROD_ID.' = \''.$productID.'\') as tabkey'
-      .' LEFT JOIN '.PRODUCT_TABLE::$NAME.' on tabkey.'.PRODUCT_TABLE::$PROD_ID.' = '.PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$PROD_ID
-      .' LEFT JOIN '.DISCOUNT_TABLE::$NAME.' on tabkey.'.PRODUCT_TABLE::$PROD_ID.' = '.DISCOUNT_TABLE::$NAME.'.'.DISCOUNT_TABLE::$PROD_ID.';';
+      $q = 'SELECT '.PRODUCT_TABLE::$PROD_ID.', '
+                    .PRODUCT_TABLE::$VEND_ID.', '
+                    .PRODUCT_TABLE::$PROD_NUMBER.', '
+                    .PRODUCT_TABLE::$CATEGORY.', '
+                    .PRODUCT_TABLE::$PROD_NAME.', '
+                    .PRODUCT_TABLE::$DESCRIPTION.', '
+                    .PRODUCT_TABLE::$IMAGE.', '
+                    .PRODUCT_TABLE::$FEATURES.', '
+                    .PRODUCT_TABLE::$CONSTRAINTS.', '
+                    .PRODUCT_TABLE::$PRICE.', '
+                    .PRODUCT_TABLE::$DISCOUNT
+      .' FROM '.PRODUCT_TABLE::$NAME.' WHERE '.PRODUCT_TABLE::$PROD_ID.' = \''.$productID.'\';';
     
       $r = mysqli_query($dbc, $q);
       if($r) {
@@ -88,22 +79,49 @@
      * The format of each of these arrays is the the same as the array returned from selectSingleProduct
      */
     function selectAllProductsByCategory($dbc, $category) {
-      $q = 'SELECT * FROM (SELECT '.PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$PROD_ID.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$VEND_ID.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$SERIAL.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$CATEGORY.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$PROD_NAME.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$DESCRIPTION.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$IMAGES.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$FEATURES.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$CONSTRAINTS.', '
-                    .PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$PRICE.', '
-                    .DISCOUNT_TABLE::$NAME.'.'.DISCOUNT_TABLE::$PERC_OFF
-      .' FROM (SELECT '.PRODUCT_TABLE::$PROD_ID.' FROM '.PRODUCT_TABLE::$NAME
-      .' UNION SELECT '.PRODUCT_TABLE::$PROD_ID.' FROM '.DISCOUNT_TABLE::$NAME.') as tabkey'
-      .' LEFT JOIN '.PRODUCT_TABLE::$NAME.' on tabkey.'.PRODUCT_TABLE::$PROD_ID.' = '.PRODUCT_TABLE::$NAME.'.'.PRODUCT_TABLE::$PROD_ID
-      .' LEFT JOIN '.DISCOUNT_TABLE::$NAME.' on tabkey.'.PRODUCT_TABLE::$PROD_ID.' = '.DISCOUNT_TABLE::$NAME.'.'.DISCOUNT_TABLE::$PROD_ID.')'
-      .' as combined where '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\';';
+              $q = 'SELECT '.PRODUCT_TABLE::$PROD_ID.', '
+                    .PRODUCT_TABLE::$VEND_ID.', '
+                    .PRODUCT_TABLE::$PROD_NUMBER.', '
+                    .PRODUCT_TABLE::$CATEGORY.', '
+                    .PRODUCT_TABLE::$PROD_NAME.', '
+                    .PRODUCT_TABLE::$DESCRIPTION.', '
+                    .PRODUCT_TABLE::$IMAGE.', '
+                    .PRODUCT_TABLE::$FEATURES.', '
+                    .PRODUCT_TABLE::$CONSTRAINTS.', '
+                    .PRODUCT_TABLE::$PRICE.', '
+                    .PRODUCT_TABLE::$DISCOUNT
+      .' FROM '.PRODUCT_TABLE::$NAME.' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\';'
+
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        $array = array();
+        while ($row = mysqli_fetch_assoc($r)) {
+            $array[] = $row;
+        }
+        return $array;
+      }
+      return array();
+    }
+    
+        /**
+     * Returns an array of arrays.
+     * Each internal array represents a single product from the specified vendor.
+     * The format of each of these arrays is the the same as the array returned from selectSingleProduct
+     */
+    function selectAllProductsByVendor($dbc, $vendor) {
+              $q = 'SELECT '.PRODUCT_TABLE::$PROD_ID.', '
+                    .PRODUCT_TABLE::$VEND_ID.', '
+                    .PRODUCT_TABLE::$PROD_NUMBER.', '
+                    .PRODUCT_TABLE::$CATEGORY.', '
+                    .PRODUCT_TABLE::$PROD_NAME.', '
+                    .PRODUCT_TABLE::$DESCRIPTION.', '
+                    .PRODUCT_TABLE::$IMAGE.', '
+                    .PRODUCT_TABLE::$FEATURES.', '
+                    .PRODUCT_TABLE::$CONSTRAINTS.', '
+                    .PRODUCT_TABLE::$PRICE.', '
+                    .PRODUCT_TABLE::$DISCOUNT
+      .' FROM '.PRODUCT_TABLE::$NAME.' WHERE '.PRODUCT_TABLE::$VEND_ID.'=\''.$vendor.'\';'
+
       $r = mysqli_query($dbc, $q);
       if($r) {
         $array = array();
