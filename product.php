@@ -45,6 +45,8 @@
     private $features;
     private $constraints;
     private $price;
+    private $approved;
+    private $quantity;
     
     public function Product() {
       $this->productID = NULL;
@@ -57,6 +59,8 @@
       $this->features = NULL;
       $this->constraints = NULL;
       $this->price = NULL;
+      $this->approved = NULL;
+      $this->quantity = NULL;
     }
     
     /**
@@ -149,6 +153,25 @@
       return $this;
     }
     
+        /**
+     *Set whether this product is approved or not
+     *returns this product for method chaining
+     */
+    public function setApproved($approved) {
+      $this->approved = $approved;
+      return $this;
+    }
+    
+    
+        /**
+     *Set the quantity of products available
+     *returns this product for method chaining.
+     */
+    public function setQuantity($quantity) {
+      $this->quantity = $quantity;
+      return $this;
+    }
+    
     /**
      * Insert this product into the product database.
      * returns true if this was successful false otherwise.
@@ -163,7 +186,9 @@
                           .PRODUCT_TABLE::$IMAGE.'`, `'
                           .PRODUCT_TABLE::$FEATURES.'`, `'
                           .PRODUCT_TABLE::$CONSTRAINTS.'`, `'
-                          .PRODUCT_TABLE::$PRICE.'`) VALUES (\''
+                          .PRODUCT_TABLE::$PRICE.'`, `'
+                          .PRODUCT_TABLE::$QUANTITY.'`, `'
+                          .PRODUCT_TABLE::$APPROVED.'`) VALUES (\''
                           .$this->vendorID.'\',\''
                           .$this->prod_num.'\',\''
                           .$this->category.'\',\''
@@ -172,7 +197,9 @@
                           .$this->image.'\',\''
                           .$this->features.'\',\''
                           .$this->constraints.'\',\''
-                          .$this->price.'\')';
+                          .$this->price.'\',\''
+                          .$this->quantity.'\',\''
+                          .$this->approved.'\')';
       $r = mysqli_query($dbc, $q);
       if($r) {
         return true;
@@ -225,6 +252,14 @@
       
       if($this->price !== NULL) {
         $array[] = PRODUCT_TABLE::$PRICE . "='{$this->price}'";
+      }
+      
+            if($this->quantity !== NULL) {
+        $array[] = PRODUCT_TABLE::$QUANTITY . "='{$this->quantity}'";
+      }
+      
+            if($this->approved !== NULL) {
+        $array[] = PRODUCT_TABLE::$APPROVED . "='{$this->approved}'";
       }
       
       if(empty($array)) {

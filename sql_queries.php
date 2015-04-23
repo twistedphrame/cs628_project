@@ -12,6 +12,8 @@
       public static $IMAGE = 'image';
       public static $CONSTRAINTS = 'constraints';
       public static $DISCOUNT = 'discount';
+      public static $QUANTITY = 'quantity';
+      public static $APPROVED = 'approved';
     }
 
 
@@ -32,13 +34,21 @@
         echo "</select>";
     }
     
+    
+    
+    
+    
+    private function selectAllProductsQuery() {
+        return 'SELECT * FROM '.PRODUCT_TABLE::$NAME;
+    }
+    
     /**
      * Gets information about a the product with the given $productID
      * If it cannot be found an empty array is returned
      * This information includes:
      * The product ID           retrieved by $array[PRODUCT_TABLE::$PROD_ID]
      * The vendor ID            retrieved by $array[PRODUCT_TABLE::$VEND_ID]
-     * The serial number        retrieved by $array[PRODUCT_TABLE::$SERIAL]
+     * The serial number        retrieved by $array[PRODUCT_TABLE::$PROD_NUMBER]
      * The category             retrieved by $array[PRODUCT_TABLE::$CATEGORY]
      * The product name         retrieved by $array[PRODUCT_TABLE::$PROD_NAME]
      * The description          retrieved by $array[PRODUCT_TABLE::$DESCRIPTION]
@@ -46,26 +56,15 @@
      * The features             retrieved by $array[PRODUCT_TABLE::$FEATURES]
      * The constraints          retrieved by $array[PRODUCT_TABLE::$CONSTRAINTS]
      * The prices               retrieved by $array[PRODUCT_TABLE::$PRICE]
-     * The current discount     retrieved by $array[DISCOUNT_TABLE::$PERC_OFF]
-     *
+     * The current discount     retrieved by $array[PRODUCT_TABLE::$DISCOUNT]
+     * The approval             retrieved by $array[PRODUCT_TABLE::$APPROVED]
+     * The available quantity   retrieved by $array[PRODUCT_TABLE::$QUANTITY]
      *
      * param $dbc - The dbc connection
      * param $productID - The ID for the product
      */
     function selectSingleProduct($dbc, $productID) {
-      $q = 'SELECT '.PRODUCT_TABLE::$PROD_ID.', '
-                    .PRODUCT_TABLE::$VEND_ID.', '
-                    .PRODUCT_TABLE::$PROD_NUMBER.', '
-                    .PRODUCT_TABLE::$CATEGORY.', '
-                    .PRODUCT_TABLE::$PROD_NAME.', '
-                    .PRODUCT_TABLE::$DESCRIPTION.', '
-                    .PRODUCT_TABLE::$IMAGE.', '
-                    .PRODUCT_TABLE::$FEATURES.', '
-                    .PRODUCT_TABLE::$CONSTRAINTS.', '
-                    .PRODUCT_TABLE::$PRICE.', '
-                    .PRODUCT_TABLE::$DISCOUNT
-      .' FROM '.PRODUCT_TABLE::$NAME.' WHERE '.PRODUCT_TABLE::$PROD_ID.' = \''.$productID.'\';';
-    
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$PROD_ID.' = \''.$productID.'\';';    
       $r = mysqli_query($dbc, $q);
       if($r) {
         return mysqli_fetch_assoc($r);
@@ -73,25 +72,31 @@
       return array();
     }
 
-    /**
+            /**
      * Returns an array of arrays.
-     * Each internal array represents a single product from the specified category.
+     * Each internal array represents a single product that has not been aapproved yet
      * The format of each of these arrays is the the same as the array returned from selectSingleProduct
      */
-    function selectAllProductsByCategory($dbc, $category) {
-              $q = 'SELECT '.PRODUCT_TABLE::$PROD_ID.', '
-                    .PRODUCT_TABLE::$VEND_ID.', '
-                    .PRODUCT_TABLE::$PROD_NUMBER.', '
-                    .PRODUCT_TABLE::$CATEGORY.', '
-                    .PRODUCT_TABLE::$PROD_NAME.', '
-                    .PRODUCT_TABLE::$DESCRIPTION.', '
-                    .PRODUCT_TABLE::$IMAGE.', '
-                    .PRODUCT_TABLE::$FEATURES.', '
-                    .PRODUCT_TABLE::$CONSTRAINTS.', '
-                    .PRODUCT_TABLE::$PRICE.', '
-                    .PRODUCT_TABLE::$DISCOUNT
-      .' FROM '.PRODUCT_TABLE::$NAME.' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\';'
-
+    function selectAllNonApprovedProducts($dbc, $category) {
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$APPROVED.'=\'0\';';
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        $array = array();
+        while ($row = mysqli_fetch_assoc($r)) {
+            $array[] = $row;
+        }
+        return $array;
+      }
+      return array();
+    }
+        /**
+     * Returns an array of arrays.
+     * Each internal array represents a single product from the specified category that has been approved.
+     * The format of each of these arrays is the the same as the array returned from selectSingleProduct
+     */
+    function selectApprovedProductsByCategory($dbc, $category) {
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\' AND '
+                                             .PRODUCT_TABLE::$APPROVED.'=\'1\';';
       $r = mysqli_query($dbc, $q);
       if($r) {
         $array = array();
@@ -109,19 +114,7 @@
      * The format of each of these arrays is the the same as the array returned from selectSingleProduct
      */
     function selectAllProductsByVendor($dbc, $vendor) {
-              $q = 'SELECT '.PRODUCT_TABLE::$PROD_ID.', '
-                    .PRODUCT_TABLE::$VEND_ID.', '
-                    .PRODUCT_TABLE::$PROD_NUMBER.', '
-                    .PRODUCT_TABLE::$CATEGORY.', '
-                    .PRODUCT_TABLE::$PROD_NAME.', '
-                    .PRODUCT_TABLE::$DESCRIPTION.', '
-                    .PRODUCT_TABLE::$IMAGE.', '
-                    .PRODUCT_TABLE::$FEATURES.', '
-                    .PRODUCT_TABLE::$CONSTRAINTS.', '
-                    .PRODUCT_TABLE::$PRICE.', '
-                    .PRODUCT_TABLE::$DISCOUNT
-      .' FROM '.PRODUCT_TABLE::$NAME.' WHERE '.PRODUCT_TABLE::$VEND_ID.'=\''.$vendor.'\';'
-
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$VEND_ID.'=\''.$vendor.'\';'
       $r = mysqli_query($dbc, $q);
       if($r) {
         $array = array();
