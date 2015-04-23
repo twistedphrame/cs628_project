@@ -1,5 +1,5 @@
 <?php
-  include("sql_queries.php");
+  include("includes/sql_queries.php");
   /**
    * This represents a product that will be inserted into the database
    * or updated in the database

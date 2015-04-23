@@ -1,7 +1,6 @@
 <html>
 <?php
-    $QUANTITY = 'quantity';
-    include("sql_queries.php");
+    include("includes/sql_queries.php");
     session_start();
     if (/*empty($_COOKIE['uname'])
          *|| */ $_SERVER['REQUEST_METHOD'] != 'GET'
@@ -36,17 +35,17 @@
         
         //what do I do when i get a response back
         xhr.onreadystatechange = function () {
-						if (xhr.readyState === 4) {
-										if (xhr.status == 200 && xhr.status < 300) {
-														window.location.replace('shopping_cart.php', '_SELF')
-										}
-						}
-				}
-				xhr.open('POST', 'add_2_cart.php');
-				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-				xhr.send("productid=" + classID);
-				xhr.send("quantity=" + quantity);
+	    if (xhr.readyState === 4) {
+		if (xhr.status == 200 && xhr.status < 300) {
+						window.location.replace('shopping_cart.php', '_SELF')
 		}
+	    }     
+	}	
+	xhr.open('POST', 'add_2_cart.php');
+	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhr.send("productid=" + classID);
+	xhr.send("quantity=" + quantity);
+    }
 
 </script>
     
@@ -67,7 +66,7 @@
                     <form>
                         <table>
 												<?php
-														$percOff = $product[DISCOUNT_TABLE::$DISCOUNT];
+														$percOff = $product[PRODUCT_TABLE::$DISCOUNT];
 														if($percOff != NULL && $percOff > 0) {
 																echo '<tr><td>Normal Cost:</td><td>'.$product[PRODUCT_TABLE::$PRICE].'</td></tr>';
 																echo '<tr><td>Discount:</td><td>'.$percOff.'%</td></tr>';
@@ -75,7 +74,7 @@
 														} else {
 																echo '<tr><td>Cost:</td><td>'.$product[PRODUCT_TABLE::$PRICE].'</td></tr>';
 														}
-														echo '<tr><td>Quantity:</td><td>'.quantityDropDown($QUANTITY, $selected).'</tr></tr>';
+														echo '<tr><td>Quantity:</td><td>'.quantityDropDown(PRODUCT_TABLE::$QUANTITY, NULL, $product[PRODUCT_TABLE::$QUANTITY]).'</tr></tr>';
 														echo "<tr><tdcolspan='2'><input type=\"button\" \n";
 														echo 'onclick="addToCart('.$_GET[PRODUCT_TABLE::$PROD_ID].')" ';
 														echo "value=\"ADD TO CART\" /></td></tr>\n";
