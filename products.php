@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Class Registration</title>
+<title>Online Shopping System</title>
 <link rel="stylesheet" href="includes/style.css" type="text/css" media="screen" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 </head>
@@ -10,7 +10,7 @@
 	<?php include("includes/header.html");?>
 	
 	<div id="content" align='center'>	
-		<h1>Class Registration</h1>		
+		<h1>Products Page</h1>		
 
 		<?php 
 			function menu ($arr, $name, $value) {  //creates the menu for selecting the subject that the classes are sorted by

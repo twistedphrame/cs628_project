@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2015 at 11:55 PM
+-- Generation Time: Apr 23, 2015 at 02:25 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -19,6 +19,25 @@ SET time_zone = "+00:00";
 --
 -- Database: `project`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE IF NOT EXISTS `categories` (
+  `categoryid` int(11) NOT NULL AUTO_INCREMENT,
+  `catname` varchar(30) NOT NULL,
+  PRIMARY KEY (`categoryid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`categoryid`, `catname`) VALUES
+(2, 'Food');
 
 -- --------------------------------------------------------
 
@@ -41,7 +60,14 @@ CREATE TABLE IF NOT EXISTS `product` (
   `approved` tinyint(1) NOT NULL,
   `quantity` int(10) NOT NULL,
   PRIMARY KEY (`productid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`productid`, `category`, `productname`, `vendorid`, `description`, `price`, `productnumber`, `features`, `image`, `constraints`, `discount`, `approved`, `quantity`) VALUES
+(2, 'Food', 'food', 'vendor', 'food', 10, 10, 'food', 'food', 'food', 10, 0, 10);
 
 -- --------------------------------------------------------
 
@@ -88,7 +114,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`username`, `fname`, `lname`, `psword`, `address`, `city`, `state`, `zipcode`, `email`, `phone`, `lastlogin`, `loginattempts`, `role`, `approved`) VALUES
-('admin', 'admin', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'adminville', 'admin', 'NJ', 7712, 'admin', '1111111', '0000-00-00', 0, 'Admin', 0);
+('admin', 'admin', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'adminville', 'admin', 'NJ', 7712, 'admin', '1111111', '0000-00-00', 0, 'Admin', 0),
+('vendor', 'vendor', 'vendor', '9fdcb2f441fcdd2e24e21bf8d45413ae72c0443c', 'vendor', 'vendor', 'NJ', 7755, 'vendor', '111111', '0000-00-00', 0, 'Vendor', 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
