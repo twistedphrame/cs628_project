@@ -2,59 +2,24 @@
 <?php
     include("includes/sql_queries.php");
     session_start();
-    if (/*empty($_COOKIE['uname'])
-         *|| */ $_SERVER['REQUEST_METHOD'] != 'GET'
-          || !isset($_GET[PRODUCT_TABLE::$PROD_ID])) {
-            header('LOCATION: index.php');
+    if (empty($_COOKIE['uname'])
+         || $_SERVER['REQUEST_METHOD'] != 'GET'
+         || !isset($_GET[PRODUCT_TABLE::$PROD_ID])) {
+      header('LOCATION: index.php');
     }
-
-    /*
-    //retrieve session data
-    $uname = $_COOKIE['uname'];//$_SESSION['uname'];
-    */
     include("dbc.php");
-    $product = selectSingleProduct($dbc, $_GET[PRODUCT_TABLE::$PROD_ID]);
+    $product = selectSingleApprovedProduct($dbc, $_GET[PRODUCT_TABLE::$PROD_ID]);
     if(empty($product)) {
         header('LOCATION: index.php');
     }
 ?>
-<script>
-    function addToCart(prodID) {
-        var e = document.getElementById("quantity");
-        var quantity = e.options[e.selectedIndex].value;
-        var xhr;
-        if (window.XMLHttpRequest) {
-            xhr = new XMLHttpRequest();
-        }
-        else if (window.ActiveXObject) {
-            xhr = new ActiveXObject("Msxml2.XMLHTTP");
-        }
-        else {
-            throw new Error("Ajax is not supported by this browser");
-        }
-        
-        //what do I do when i get a response back
-        xhr.onreadystatechange = function () {
-	    if (xhr.readyState === 4) {
-		if (xhr.status == 200 && xhr.status < 300) {
-						window.location.replace('shopping_cart.php', '_SELF')
-		}
-	    }     
-	}	
-	xhr.open('POST', 'add_2_cart.php');
-	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	xhr.send("productid=" + classID);
-	xhr.send("quantity=" + quantity);
-    }
-
-</script>
-    
 <head>
     <title><?php echo $product[PRODUCT_TABLE::$PROD_NAME]; ?></title>    
 </head>
 
 <body>
     <?php include("includes/header.php"); ?>
+    <script src="ajaxFuncs.js"></script>
     <div>
         <table>
             <tr>
@@ -68,38 +33,39 @@
 												<?php
 														$percOff = $product[PRODUCT_TABLE::$DISCOUNT];
 														if($percOff != NULL && $percOff > 0) {
-																echo '<tr><td>Normal Cost:</td><td>'.$product[PRODUCT_TABLE::$PRICE].'</td></tr>';
+																echo '<tr><td>Normal Cost:</td><td>$';
+                                echo number_format($product[PRODUCT_TABLE::$PRICE], 2);
+                                echo '</td></tr>';
 																echo '<tr><td>Discount:</td><td>'.$percOff.'%</td></tr>';
-																echo '<tr><td>Actual Cost:</td><td>' . ($product[PRODUCT_TABLE::$PRICE] * ($percOff/100.0)) . '</td></tr>';
+																echo '<tr><td>Actual Cost:</td><td>$';
+                                echo number_format($product[PRODUCT_TABLE::$PRICE] * (1 - $percOff/100.0), 2);
+                                echo '</td></tr>';
 														} else {
 																echo '<tr><td>Cost:</td><td>'.$product[PRODUCT_TABLE::$PRICE].'</td></tr>';
 														}
-														echo '<tr><td>Quantity:</td><td>'.quantityDropDown(PRODUCT_TABLE::$QUANTITY, NULL, $product[PRODUCT_TABLE::$QUANTITY]).'</tr></tr>';
-														echo "<tr><tdcolspan='2'><input type=\"button\" \n";
-														echo 'onclick="addToCart('.$_GET[PRODUCT_TABLE::$PROD_ID].')" ';
-														echo "value=\"ADD TO CART\" /></td></tr>\n";
-														echo '<tr><td colspan="2">ADD TO CART</td></tr>';
+														echo '<tr><td>Quantity:</td><td>';
+                            echo quantityDropDown(PRODUCT_TABLE::$QUANTITY, NULL, $product[PRODUCT_TABLE::$QUANTITY]);
+                            echo '</td></tr>';
+														echo "<tr><td colspan='2'>";
+                            echo '<input type="button" onclick="addToCart('.$_GET[PRODUCT_TABLE::$PROD_ID].')" value="ADD TO CART" />';
+                            echo "</td></tr>";
 												?>
                         </table>
                     </form>
                 </td>
             </tr>
             <tr>
-               <td colspan='2'><h4>Description:</h4></td> 
+               <td colspan='2'><h4 style='display: inline'>Description:</h4><br><?php echo $product[PRODUCT_TABLE::$DESCRIPTION]; ?></td>
             </tr>
             <tr>
-                <td colspan='2'><?php echo "Category: "; echo $product[PRODUCT_TABLE::$CATEGORY]; ?></td>
+                <td colspan='2'><?php echo "<h4 style='display: inline'>Category:</h4> "; echo $product[PRODUCT_TABLE::$CATEGORY]; ?></td>
             </tr>
             <tr>
-                <td colspan='2'><?php echo "Serial Number: "; echo $product[PRODUCT_TABLE::$PROD_NUMBER]; ?></td>
+                <td colspan='2'><?php echo "<h4 style='display: inline'>Serial Number:</h4> "; echo $product[PRODUCT_TABLE::$PROD_NUMBER]; ?></td>
             </tr>
             <tr>
-                <td colspan='2'><?php echo $product[PRODUCT_TABLE::$DESCRIPTION]; ?></td>
+                <td colspan='2'><h4 style='display: inline'>Features:</h4><br><?php echo $product[PRODUCT_TABLE::$FEATURES]; ?></td>
             </tr>
-            <tr>
-                <td colspan='2'><h4>Features:</h4></td>
-            </tr>
-            <tr><td colspan='2'><?php echo $product[PRODUCT_TABLE::$FEATURES]; ?></td></tr>
         </table>        
     </div>
     <?php include("includes/footer.php"); ?>    

@@ -85,6 +85,16 @@
       }
       return array();
     }
+    
+    function selectSingleApprovedProduct($dbc, $productID) {
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$PROD_ID.' = \''.$productID.'\''
+                                   .' AND '.PRODUCT_TABLE::$APPROVED.' = 1;';    
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        return mysqli_fetch_assoc($r);
+      }
+      return array();
+    }
 
             /**
      * Returns an array of arrays.
