@@ -11,7 +11,7 @@
 	
 	<div id="content" align='center'>	
 
-		<?php 
+		<?php
 			session_start();
 			if(isset($_COOKIE['username'])){
 				$username = $_COOKIE['username'];
@@ -21,19 +21,8 @@
 			else{
 				header('LOCATION: signin.php');
 			}
-			
-			
-			if($role == "Customer"){
-				include("includes/header_cust.html");
-				header('LOCATION: index.php');
-			}
-			if($role == "Admin"){
-				include("includes/header_admin.html");
-			}
-			if($role == "Vendor"){
-				include("includes/header_vendor.html");
-				header('LOCATION: index.php');
-			}
+      include("sql_queries.php");
+      include("includes/header.php");
 		?>
 		<?php 
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -93,7 +82,7 @@
 		</form>
 
 		</br>
-		<input type="button" onClick="parent.location='index.php'" value="Back">
+		<input type="button" onClick="parent.location='products.php'" value="Back">
 	
 </div>
 

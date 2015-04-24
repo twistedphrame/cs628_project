@@ -5,7 +5,7 @@
 	if(isset($_COOKIE['uname'])) //if the username is not set in a cookie it pushes the user back to the log in page
 		$uname = $_COOKIE['uname'];
 	else
-		header('LOCATION: index.php');
+		header('LOCATION: products.php');
 
  	$categoryid = $_GET['categoryid'];//grabs the class id and sets in a variable.  The class id was pushed from the previous page
  	

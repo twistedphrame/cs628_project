@@ -44,7 +44,7 @@
 							setcookie(USER_TABLE::$FIRST_NAME,$fname,time()+36000);
 							setcookie(USER_TABLE::$ROLE,$role,time()+36000);
 
-							header('LOCATION: index.php');
+							header('LOCATION: products.php');
 						}
 						else {
 							echo "incorrect password";

@@ -25,18 +25,8 @@
 			else{
 				header('LOCATION: signin.php');
 			}
-			
-			
-			if($role == "Customer"){
-				include("includes/header_cust.html");
-				header('LOCATION: index.php');
-			}
-			if($role == "Admin"){
-				include("includes/header_admin.html");
-			}
-			if($role == "Vendor"){
-				include("includes/header_vendor.html");
-			}
+			include("sql_queries.php");
+      include("includes/header.php");
 		?>
 		<?php 
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -220,7 +210,7 @@
 				<input type="submit" value="Add Class">  <!-- the input type submit means its a button, the value is what you see on the button-->
 			</div>
 		</form>
-		<input type="button" onClick="parent.location='admin.php'" value="Back">
+		<input type="button" onClick="parent.location='products.php'" value="Back">
 	</div>
 
 	

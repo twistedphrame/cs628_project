@@ -5,12 +5,12 @@
     if (!isset($_COOKIE[USER_TABLE::$USER_NAME])
          || $_SERVER['REQUEST_METHOD'] != 'GET'
          || !isset($_GET[PRODUCT_TABLE::$PROD_ID])) {
-      header('LOCATION: index.php');
+      header('LOCATION: products.php');
     }
     include("dbc.php");
     $product = selectSingleApprovedProduct($dbc, $_GET[PRODUCT_TABLE::$PROD_ID]);
     if(empty($product)) {
-        header('LOCATION: index.php');
+        header('LOCATION: products.php');
     }
 ?>
 <head>

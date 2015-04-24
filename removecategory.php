@@ -21,19 +21,8 @@
 			else{
 				header('LOCATION: signin.php');
 			}
-			
-			
-			if($role == "Customer"){
-				include("includes/header_cust.html");
-				header('LOCATION: index.php');
-			}
-			if($role == "Admin"){
-				include("includes/header_admin.html");
-			}
-			if($role == "Vendor"){
-				include("includes/header_vendor.html");
-				header('LOCATION: index.php');
-			}
+			include("sql_queries.php");
+      include("includes/header.php");
 		?>	
 		
 		<center><table> <!-- creates the table headers for the class records that will be displayed-->

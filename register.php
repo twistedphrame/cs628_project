@@ -20,12 +20,12 @@
 		<div style="color:red">
 		<?php 
 			if(!isset($_GET[USER_TABLE::$ROLE])){
-				header('LOCATION: index.php');
+				header('LOCATION: products.php');
 			}
       $role = $_GET[USER_TABLE::$ROLE];
       if($role != USER_TABLE::$ROLE_VENDOR
          && $role != USER_TABLE::$ROLE_USER) {
-       header('LOCATION: index.php'); 
+       header('LOCATION: products.php'); 
       }
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){			
 				$username = $_POST[USER_TABLE::$USER_NAME]; //form data username,
