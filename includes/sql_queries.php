@@ -20,11 +20,34 @@
       public static $NAME = 'users';
       public static $ROLE = 'role';
       
-      
+      public static $USER_NAME = 'username';
+      public static $PASS_WORD = 'psword';
+      public static $PASS_WORD2 = 'psword2';
+      public static $FIRST_NAME = 'fname';
+      public static $LAST_NAME = 'lname';
+      public static $ADDRESS = 'address';
+      public static $CITY = 'city';
+      public static $STATE = 'state';
+      public static $ZIP_CODE = 'zipcode';
+      public static $EMAIL = 'email';
+      public static $PHONE = 'phone';
       
       public static $ROLE_ADMIN = 'admin';
       public static $ROLE_VENDOR = 'vendor';
-      public static $ROLE_USER = 'user';
+      public static $ROLE_USER = 'customer';
+    }
+
+    
+    /**
+     * If the given product array has a discount then the discounted price
+     * is returned otherwise the standard price is returned.
+     */
+    function actualCost($product) {
+      $percOff = $product[PRODUCT_TABLE::$DISCOUNT];
+			if($percOff != NULL && $percOff > 0) {
+        return $product[PRODUCT_TABLE::$PRICE] * (1 - $percOff/100.0);
+      }
+      return $product[PRODUCT_TABLE::$PRICE];
     }
 
 
@@ -40,7 +63,7 @@
         }
         foreach (range(1, $quantity) as $number) {
             echo '<option value="'.$number.'"';
-            if($number === $selected) {
+            if($number == $selected) {
                 echo ' selected = "selected"';
             }
             echo '>'.$number.'</option>';
@@ -148,5 +171,27 @@
         return $array;
       }
       return array();
+    }
+    
+    
+    /**
+     * Goes through the user's cookies and returns an array of product arrays
+     * for those products that have been added to the user's cookie
+     * The selected amount can be accessed with 'selected_quantity'
+     */
+    function productsInCart($dbc) {
+      $array = array();
+      foreach($_COOKIE as $cookie_name => $cookie_value) {
+        if(substr($cookie_name, 0, strlen('prob_')) === 'prod_') {
+          $product = selectSingleProduct($dbc, substr($cookie_name, strlen('prob_'), strlen($cookie_name)));
+          if(empty($product)) {
+            die("Can't find product for: " + $cookie_name);
+          } else {
+            $product['selected_quantity'] = $cookie_value;
+            $array[] = $product;
+          }
+        }
+      }
+      return $array;
     }
 ?>

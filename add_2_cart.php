@@ -1,10 +1,12 @@
 <?php
   session_start();
-  if (empty($_COOKIE['uname'])) {
+  include("includes/sql_queries.php");
+  if (!isset($_COOKIE[USER_TABLE::$USER_NAME)) {
     header('LOCATION: index.php');
   }
-  include("includes/sql_queries.php");
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    setcookie($_POST[PRODUCT_TABLE::$PROD_ID], $_POST[PRODUCT_TABLE::$QUANTITY]);
+    setcookie("prod_"+$_POST[PRODUCT_TABLE::$PROD_ID],
+              $_POST[PRODUCT_TABLE::$QUANTITY],
+              time()+36000);
   }
 ?>

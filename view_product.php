@@ -1,14 +1,14 @@
 <html>
 <?php
     include("includes/sql_queries.php");
-    session_start();
-    if (empty($_COOKIE['uname'])
+    session_start();    
+    if (!isset($_COOKIE[USER_TABLE::$USER_NAME])
          || $_SERVER['REQUEST_METHOD'] != 'GET'
          || !isset($_GET[PRODUCT_TABLE::$PROD_ID])) {
       header('LOCATION: index.php');
     }
     include("dbc.php");
-    $product = selectSingleApprovedProduct($dbc, $_GET[PRODUCT_TABLE::$PROD_ID]);
+    $product = selectSingleProduct($dbc, $_GET[PRODUCT_TABLE::$PROD_ID]);
     if(empty($product)) {
         header('LOCATION: index.php');
     }
@@ -38,7 +38,7 @@
                                 echo '</td></tr>';
 																echo '<tr><td>Discount:</td><td>'.$percOff.'%</td></tr>';
 																echo '<tr><td>Actual Cost:</td><td>$';
-                                echo number_format($product[PRODUCT_TABLE::$PRICE] * (1 - $percOff/100.0), 2);
+                                echo number_format(actualCost($product), 2);
                                 echo '</td></tr>';
 														} else {
 																echo '<tr><td>Cost:</td><td>'.$product[PRODUCT_TABLE::$PRICE].'</td></tr>';

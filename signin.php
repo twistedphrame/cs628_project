@@ -1,16 +1,15 @@
 <html>
 <head>
+  <?php include("includes/sql_queries.php"); ?>
 	<title>CS628</title>
 	<link rel = "stylesheet" href = "includes/style.css" type = "text/css" media = "screen" />
-	
-
 </head>
 
 <body>
 	
 <div id="container">
 	<div id="header">
-		<?php include("includes/header.html"); ?>
+		<?php include("includes/header.php"); ?>
 	</div>
 	
 	<div id="content">
@@ -18,8 +17,8 @@
 		<?php
 		if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 			if($_POST['button']=='Login'){
-				$username = $_POST['username'];
-				$psword = $_POST['psword'];
+				$username = $_POST[USER_TABLE::$USER_NAME];
+				$psword = $_POST[USER_TABLE::$PASS_WORD];
 			
 				$error = array();
 		
@@ -29,30 +28,22 @@
 				if(empty($error)) {
 					include("dbc.php");
 					
-					$q = "SELECT * FROM users WHERE username = '$username'";
-					
+					$q = "SELECT * FROM " . USER_TABLE::$NAME . " WHERE " . USER_TABLE::$USER_NAME . " = '$username'";
 					$r = mysqli_query($dbc, $q);
-					
-					$num = mysqli_num_rows($r);
-					
-					if ($num == 1){
+					if ($r && mysqli_num_rows($r) == 1){
 						$row = mysqli_fetch_array($r);
-						$fname = $row['fname'];
+						$fname = $row[USER_TABLE::$FIRST_NAME];
 						$pwd = SHA1($psword);
-						$role = $row['role'];
+						$role = $row[USER_TABLE::$ROLE];
 						
 						echo $pwd;
 						
-						if ($pwd == $row['psword']){
+						if ($pwd == $row[USER_TABLE::$PASS_WORD]){
 							session_start();
-							
-							
-							setcookie('username',$username,time()+36000);
-							setcookie('fname',$fname,time()+36000);
-							setcookie('role',$role,time()+36000);
-							 
-							
-							
+							setcookie(USER_TABLE::$USER_NAME,$username,time()+36000);
+							setcookie(USER_TABLE::$FIRST_NAME,$fname,time()+36000);
+							setcookie(USER_TABLE::$ROLE,$role,time()+36000);
+
 							header('LOCATION: index.php');
 						}
 						else {
@@ -72,11 +63,11 @@
 				}
 			}
 			else {   //register button was hit
-				$role = $_POST['role'];
+				$role = $_POST[USER_TABLE::$ROLE];
 				if (empty($role)) 
 					echo "You forgot to select a role.";
 				else
-					header('LOCATION: register.php?role='.$role);
+					header('LOCATION: register.php?'.USER_TABLE::$ROLE.'='.$role);
 					
 			}
 		}
@@ -88,11 +79,11 @@
 			<center><table>
 				<tr>
 					<td>Username:</td>
-					<td><input type="text" name="username"></td>					
+					<td><input type="text" name="<?php echo USER_TABLE::$USER_NAME; ?>"></td>					
 				</tr>
 				<tr>
 					<td>Password:</td>
-					<td><input type="password" name="psword"></td>	
+					<td><input type="password" name="<?php echo USER_TABLE::$PASS_WORD; ?>"></td>	
 				</tr>
 	
 			</table></center>
@@ -107,9 +98,8 @@
 		
 				<tr>
 					<td>Role:</td>
-					<td><input type="radio" name="role" value="Customer">Customer
-						<input type="radio" name="role" value="Admin">Admin
-						<input type="radio" name="role" value="Vendor">Vendor
+					<td><input type="radio" name="<?php echo USER_TABLE::$ROLE; ?>" value="<?php echo USER_TABLE::$ROLE_USER; ?>">Customer
+              <input type="radio" name="<?php echo USER_TABLE::$ROLE; ?>" value="<?php echo USER_TABLE::$ROLE_VENDOR ?>">Vendor
 					</td>	
 				</tr>
 			</table></center>
@@ -119,6 +109,7 @@
 		</form>
 	</div>
 	
+  
 	<div id="footer">
 		<p style = "padding: 10px 250px; font-size: 12px">Copyright 2015 Monmouth University</p> 
 	</div>

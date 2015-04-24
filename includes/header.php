@@ -1,6 +1,6 @@
 <?php
-if(isset($_COOKIE['role'])) {
-  $role = $_COOKIE['role'];
+if(isset($_COOKIE[USER_TABLE::$ROLE])) {
+  $role = $_COOKIE[USER_TABLE::$ROLE];
   if($role == USER_TABLE::$ROLE_ADMIN) {
     include("header_admin.html");
   }

@@ -13,6 +13,8 @@
 
 		<?php 
 			session_start();
+      include('includes/sql_queries.php');
+      include("includes/header.php");
 			if(isset($_COOKIE['username'])){
 				$username = $_COOKIE['username'];
 				$fname = $_COOKIE['fname'];
@@ -20,17 +22,6 @@
 			}
 			else{
 				header('LOCATION: signin.php');
-			}
-			
-			
-			if($role == "Customer"){
-				include("includes/header_cust.html");
-			}
-			if($role == "Admin"){
-				include("includes/header_admin.html");
-			}
-			if($role == "Vendor"){
-				include("includes/header_vendor.html");
 			}
 		?>
 		<?php 
