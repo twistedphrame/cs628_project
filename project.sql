@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2015 at 02:25 AM
+-- Generation Time: Apr 24, 2015 at 11:27 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `categoryid` int(11) NOT NULL AUTO_INCREMENT,
   `catname` varchar(30) NOT NULL,
   PRIMARY KEY (`categoryid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `categories`
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `image` varchar(300) NOT NULL,
   `constraints` varchar(100) NOT NULL,
   `discount` int(3) NOT NULL,
-  `approved` tinyint(1) NOT NULL,
+  `approved` tinyint(1) NOT NULL DEFAULT '0',
   `quantity` int(10) NOT NULL,
   PRIMARY KEY (`productid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`productid`, `category`, `productname`, `vendorid`, `description`, `price`, `productnumber`, `features`, `image`, `constraints`, `discount`, `approved`, `quantity`) VALUES
-(2, 'Food', 'food', 'vendor', 'food', 10, 10, 'food', 'food', 'food', 10, 0, 10);
+(2, 'Food', 'food', 'vendor', 'food', 10, 10, 'food', 'food', 'food', 10, 0, 20);
 
 -- --------------------------------------------------------
 
@@ -78,12 +78,25 @@ INSERT INTO `product` (`productid`, `category`, `productname`, `vendorid`, `desc
 CREATE TABLE IF NOT EXISTS `transaction` (
   `transactionid` datetime NOT NULL,
   `username` varchar(20) NOT NULL,
+  `vendorid` varchar(20) NOT NULL,
   `productid` int(11) NOT NULL,
   `productamount` int(11) NOT NULL,
   `price` int(11) NOT NULL,
   `delivered` tinyint(1) NOT NULL,
   PRIMARY KEY (`transactionid`,`username`,`productid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Triggers `transaction`
+--
+DROP TRIGGER IF EXISTS `decrimentQuantities`;
+DELIMITER //
+CREATE TRIGGER `decrimentQuantities` AFTER INSERT ON `transaction`
+ FOR EACH ROW UPDATE product
+     SET quantity = COALESCE(quantity, 0) -  COALESCE(NEW.productamount,0)
+   WHERE productid = NEW.productid
+//
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -114,8 +127,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`username`, `fname`, `lname`, `psword`, `address`, `city`, `state`, `zipcode`, `email`, `phone`, `lastlogin`, `loginattempts`, `role`, `approved`) VALUES
-('admin', 'admin', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'adminville', 'admin', 'NJ', 7712, 'admin', '1111111', '0000-00-00', 0, 'Admin', 0),
-('vendor', 'vendor', 'vendor', '9fdcb2f441fcdd2e24e21bf8d45413ae72c0443c', 'vendor', 'vendor', 'NJ', 7755, 'vendor', '111111', '0000-00-00', 0, 'Vendor', 0);
+('admin', 'admin', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'adminville', 'admin', 'NJ', 7712, 'admin', '1111111', '0000-00-00', 0, 'admin', 0),
+('user1', 'User', 'One', 'b3daa77b4c04a9551b8781d03191fe098f325e67', '123 Addr Road', 'Long Branch', 'NJ', 7764, 'user1@email.com', '1234567890', '0000-00-00', 0, 'customer', 0),
+('user2', 'User', 'Two', 'a1881c06eec96db9901c7bbfe41c42a3f08e9cb4', '123 Addr Road', 'Columbia', 'FL', 7764, 'fake@email.com', '3332221111', '0000-00-00', 0, 'customer', 0),
+('vendor', 'vendor', 'vendor', '9fdcb2f441fcdd2e24e21bf8d45413ae72c0443c', 'vendor', 'vendor', 'NJ', 7755, 'vendor', '111111', '0000-00-00', 0, 'vendor', 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
