@@ -183,7 +183,7 @@
       $array = array();
       foreach($_COOKIE as $cookie_name => $cookie_value) {
         if(substr($cookie_name, 0, strlen('prob_')) === 'prod_') {
-          $product = selectSingleProduct($dbc, substr($cookie_name, strlen('prob_'), strlen($cookie_name)));
+          $product = selectSingleApprovedProduct($dbc, substr($cookie_name, strlen('prob_'), strlen($cookie_name)));
           if(empty($product)) {
             die("Can't find product for: " + $cookie_name);
           } else {

@@ -8,7 +8,7 @@
       header('LOCATION: index.php');
     }
     include("dbc.php");
-    $product = selectSingleProduct($dbc, $_GET[PRODUCT_TABLE::$PROD_ID]);
+    $product = selectSingleApprovedProduct($dbc, $_GET[PRODUCT_TABLE::$PROD_ID]);
     if(empty($product)) {
         header('LOCATION: index.php');
     }
