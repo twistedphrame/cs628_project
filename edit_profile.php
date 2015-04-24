@@ -9,7 +9,6 @@
 	<div id = "container">
 	
 	<div id="content" align='center'>	
-		<h1>Class Registration</h1>		
 		<?php 
 			session_start();
 			if(isset($_COOKIE['username'])){
@@ -20,18 +19,9 @@
 			else{
 				header('LOCATION: signin.php');
 			}
-			
-			
-			if($role == "Customer"){
-				include("includes/header_cust.html");
-			}
-			if($role == "Admin"){
-				include("includes/header_admin.html");
-			}
-			if($role == "Vendor"){
-				include("includes/header_vendor.html");
-			}
-			
+			include("includes/sql_queries.php");
+      include("includes/header.php");
+						
 			function menu($arr,$name,$value){
 				echo '<select name='.name.'>';
 				

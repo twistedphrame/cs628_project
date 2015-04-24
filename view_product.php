@@ -47,7 +47,8 @@
                             echo quantityDropDown(PRODUCT_TABLE::$QUANTITY, NULL, $product[PRODUCT_TABLE::$QUANTITY]);
                             echo '</td></tr>';
 														echo "<tr><td colspan='2'>";
-                            echo '<input type="button" onclick="addToCart('.$_GET[PRODUCT_TABLE::$PROD_ID].')" value="ADD TO CART" />';
+                            echo '<input type="button" onclick="addToCart('.$_GET[PRODUCT_TABLE::$PROD_ID].',\''
+                                                                           .PRODUCT_TABLE::$QUANTITY.'\')" value="ADD TO CART" />';
                             echo "</td></tr>";
 												?>
                         </table>

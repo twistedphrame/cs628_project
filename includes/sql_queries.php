@@ -38,6 +38,20 @@
     }
 
     
+    class TRANSACTION_TABLE {
+      public static $NAME = 'transaction';
+      public static $TRANS_ID = 'transactionid';
+      public static $USER_NAME = USER_TABLE::$USER_NAME;
+      public static $PROD_ID = PRODUCT_TABLE::$PROD_ID;
+      public static $QUANTITY = PRODUCT_TABLE::$QUANTITY;
+      public static $PRICE = PRODUCT_TABLE::$PRICE;
+      public static $DELIVERED = 'delivered';
+      
+      public static $ORDER_PENDING = 'pending';
+      public static $ORDER_SHIPPED = 'shipped';
+    }
+    
+    
       /**
    * Creates a drop down with name $name, containing
    * the items in the array $items.  And sets the
@@ -79,8 +93,13 @@
     
     
     function selectAllProductsQuery() {
-        return 'SELECT * FROM '.PRODUCT_TABLE::$NAME;
+      return 'SELECT * FROM '.PRODUCT_TABLE::$NAME;
     }
+    
+    function selectTransactionForUser($user) {
+      return 'SELECT * FROM '.PRODUCT_TABLE::$NAME;
+    }
+    
     
     /**
      * Gets information about a the product with the given $productID
@@ -113,8 +132,8 @@
     }
     
     function selectSingleApprovedProduct($dbc, $productID) {
-      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$PROD_ID.' = \''.$productID.'\''
-                                   .' AND '.PRODUCT_TABLE::$APPROVED.' = 1;';    
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$PROD_ID.' = \''.$productID.'\';';
+                                   //.' AND '.PRODUCT_TABLE::$APPROVED.' = 1;';    
       $r = mysqli_query($dbc, $q);
       if($r) {
         return mysqli_fetch_assoc($r);
@@ -145,8 +164,8 @@
      * The format of each of these arrays is the the same as the array returned from selectSingleProduct
      */
     function selectApprovedProductsByCategory($dbc, $category) {
-      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\' AND '
-                                             .PRODUCT_TABLE::$APPROVED.'=\'1\';';
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\';';
+                                             //.'AND '.PRODUCT_TABLE::$APPROVED.'=\'1\';';
       $r = mysqli_query($dbc, $q);
       if($r) {
         $array = array();
@@ -175,6 +194,9 @@
       }
       return array();
     }
+    
+    
+    
     
     
     /**
