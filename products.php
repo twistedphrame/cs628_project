@@ -2,50 +2,43 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Online Shopping System</title>
-<link rel="stylesheet" href="includes/style.css" type="text/css" media="screen" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 </head>
 <body>
 	<div id = "container">
-	<?php include("includes/header.html");?>
+  <?php include("includes/sql_queries.php"); ?> 
+	<?php include("includes/header.php");?>
 	
 	<div id="content" align='center'>	
 		<h1>Products Page</h1>		
 
-		<?php 
-			function menu ($arr, $name, $value) {  //creates the menu for selecting the subject that the classes are sorted by
-				echo '<select name='.$name.'>';
-				foreach ($arr as $ar) {
-					echo '<option value = "'.$ar.'"';
-					if ($ar==$value) echo 'selected="selected"';
-						echo '>'.$ar.'</option>';
-					}	
-				echo '</select>';
+    <script>
+      function displayProducts() {
+				var categorySelect = document.getElementById("category");
+				var categoryText = categorySelect.options[categorySelect.selectedIndex].text;
+				window.location.replace('products.php?category='+categoryText, '_SELF');
 			}
-		?>		
-			
-		<?php
-			$subject = "";
-	
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') {  //when you click the display classes buttons it takes the subject selected from the menu and sets this as the subject that it will use to pull from the database
-				if($_POST['button']=='Display'){
-					$subject = $_POST['category'];
-				}
-			}
-				
-		?>
+    </script>
 
 		<form action="" method="POST"> 
-			<center><table style="padding: 10px 0px">
-				<tr><td>
+			<center>
+        <table style="padding: 10px 0px">
+				<tr>
+        <td>
 				<?php   // the actual pull down menu created with the classes in it
-					$cat = array("Food", "Electronics", "Clothing", "Books", "Movies");
-					menu($cat, 'category', $_POST['category']);
+          $category = NULL;
+          if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET[PRODUCT_TABLE::$CATEGORY])) {
+            $category = $_GET[PRODUCT_TABLE::$CATEGORY];
+          }
+					createDropDown('category', array("Food", "Electronics", "Clothing", "Books", "Movies"), $category);
 				?>
-				</td><td>
-					<input type="submit" name="button" value="Display">  <!-- the display button that when clicked pulls items from the database based on the subject that was selected-->
 				</td>
-			</table></center>
+        <td>
+          <!-- the display button that when clicked pulls items from the database based on the subject that was selected-->
+					<input type="button" onclick="displayProducts()" name="display" value="Display" />
+				</td>
+			</table>
+      </center>
 		</form>
 
 		<center><table>  <!-- creates the table headers for the class records that will be displayed-->
@@ -57,24 +50,18 @@
 			<th> Price </th>
 		</tr>
 
-		<?php 
-			include("dbc.php");
-			$q = "SELECT * FROM classes WHERE subject = '$subject'";  //creates a query that pulls all the information for classes that match the subject that was selected from the drop down menu
-			$r = mysqli_query($dbc, $q);
-			
-			while ($row = mysqli_fetch_array($r)){  //a loop that keeps pulling records with the same subject that was selected until there are no more records
-				echo "<tr>";
-					echo "<td>".$row['productname']."</td>";
-					echo "<td>".$row['category']."</td>";
-					echo "<td>".$row['vendorid']."</td>";
-					echo "<td>".$row['description']."</td>";
-					echo "<td>".$row['price']."</td>";
-					echo "<td>".$row['room']."</td>";
-					$cat = array("Food", "Electronics", "Clothing", "Books", "Movies");
-					menu($cat, 'category', $_POST['category']);
-					echo "<td>add to cart</td>"; //opens a the classreg page and passes it the class id from the class that register" was selected for
-					
-				echo "</tr>";
+		<?php
+      if($category != NULL) {
+        include("dbc.php");
+        foreach(selectApprovedProductsByCategory($dbc, $category) as $product) {
+          echo "<tr>";
+            echo '<td><a href="view_product.php?'.PRODUCT_TABLE::$PROD_ID.'='.$product[PRODUCT_TABLE::$PROD_ID].'">'.$product[PRODUCT_TABLE::$PROD_NAME]."</a></td>";
+            echo "<td>".$product[PRODUCT_TABLE::$CATEGORY]."</td>";
+            echo "<td>".$product[PRODUCT_TABLE::$VEND_ID]."</td>";
+            echo "<td>".$product[PRODUCT_TABLE::$DESCRIPTION]."</td>";
+            echo "<td>".$product[PRODUCT_TABLE::$PRICE]."</td>";
+            echo "</tr>";
+        }
 			}
 		?>					
 		</table><center> 

@@ -4,7 +4,7 @@
       public static $PROD_ID = 'productid';
       public static $PROD_NAME = 'productname';
       public static $CATEGORY = 'category';
-      public static $VEND_ID = 'vendorID';
+      public static $VEND_ID = 'vendorid';
       public static $DESCRIPTION = 'description';
       public static $PRICE = 'price';
       public static $PROD_NUMBER = 'productnumber';
@@ -38,6 +38,23 @@
     }
 
     
+      /**
+   * Creates a drop down with name $name, containing
+   * the items in the array $items.  And sets the
+   * item matching $selected as the selected item.
+   */
+  function createDropDown($name, $items, $selected) {
+    echo "<select id=\"$name\" name=\"$name\" >";
+    foreach ($items as $item) {
+      echo '<option value="'.$item.'"';
+      if($item === $selected) {
+        echo ' selected = "selected"';
+      }
+      echo '>'.$item.'</option>';
+    }
+    echo "</select>";
+  }
+    
     /**
      * If the given product array has a discount then the discounted price
      * is returned otherwise the standard price is returned.
@@ -57,22 +74,8 @@
      * The created drop down goes from 1 to 100.
      */
     function quantityDropDown($name, $selected, $quantity) {
-        echo "<select id=\"$name\" name=\"$name\" >";
-        if($quantity > 100) {
-            $quantity = 100;
-        }
-        foreach (range(1, $quantity) as $number) {
-            echo '<option value="'.$number.'"';
-            if($number == $selected) {
-                echo ' selected = "selected"';
-            }
-            echo '>'.$number.'</option>';
-        }
-        echo "</select>";
-    }
-    
-    
-    
+       createDropDown($name, range(1, $quantity), $selected);
+    }  
     
     
     function selectAllProductsQuery() {
