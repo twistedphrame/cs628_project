@@ -47,7 +47,7 @@
     echo "<select id=\"$name\" name=\"$name\" >";
     foreach ($items as $item) {
       echo '<option value="'.$item.'"';
-      if($item === $selected) {
+      if($item == $selected) {
         echo ' selected = "selected"';
       }
       echo '>'.$item.'</option>';
