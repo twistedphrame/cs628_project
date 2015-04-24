@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2015 at 11:27 PM
+-- Generation Time: Apr 24, 2015 at 11:48 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -82,7 +82,13 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `productid` int(11) NOT NULL,
   `productamount` int(11) NOT NULL,
   `price` int(11) NOT NULL,
-  `delivered` tinyint(1) NOT NULL,
+  `status` varchar(1) NOT NULL DEFAULT 'p' COMMENT '''p''=pending, ''s''=shipped, ''c''=cancelled',
+  `fname` varchar(20) NOT NULL,
+  `lname` varchar(20) NOT NULL,
+  `address` varchar(25) NOT NULL,
+  `city` varchar(20) NOT NULL,
+  `state` varchar(2) NOT NULL,
+  `zipcode` int(5) NOT NULL,
   PRIMARY KEY (`transactionid`,`username`,`productid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
