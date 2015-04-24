@@ -20,6 +20,6 @@ function addToCart(prodID) {
     }
   	xhr.open('POST', 'add_2_cart.php');
   	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  	xhr.send("productid=" + prodID);
-  	xhr.send("quantity=" + quantity);
+  	xhr.send("productid="+prodID
+             +"&quantity="+quantity);
 }
