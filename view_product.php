@@ -43,13 +43,17 @@
 														} else {
 																echo '<tr><td>Cost:</td><td>'.$product[PRODUCT_TABLE::$PRICE].'</td></tr>';
 														}
-														echo '<tr><td>Quantity:</td><td>';
-                            echo quantityDropDown(PRODUCT_TABLE::$QUANTITY, NULL, $product[PRODUCT_TABLE::$QUANTITY]);
-                            echo '</td></tr>';
-														echo "<tr><td colspan='2'>";
-                            echo '<input type="button" onclick="addToCart('.$_GET[PRODUCT_TABLE::$PROD_ID].',\''
-                                                                           .PRODUCT_TABLE::$QUANTITY.'\')" value="ADD TO CART" />';
-                            echo "</td></tr>";
+                            if($product[PRODUCT_TABLE::$QUANTITY] > 0) {
+                              echo '<tr><td>Quantity:</td><td>';
+                              echo quantityDropDown(PRODUCT_TABLE::$QUANTITY, NULL, $product[PRODUCT_TABLE::$QUANTITY]);
+                              echo '</td></tr>';
+                              echo "<tr><td colspan='2'>";
+                              echo '<input type="button" onclick="addToCart('.$_GET[PRODUCT_TABLE::$PROD_ID].',\''
+                                                                             .PRODUCT_TABLE::$QUANTITY.'\')" value="ADD TO CART" />';
+                              echo "</td></tr>";
+                            } else {
+                              echo '<tr><td colspan=2><b>OUT OF STOCK</b></td></tr>';
+                            }
 												?>
                         </table>
                     </form>
