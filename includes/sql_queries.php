@@ -19,7 +19,7 @@
     class USER_TABLE {
       public static $NAME = 'users';
       public static $ROLE = 'role';
-      
+      public static $APPROVED = 'approved';
       public static $USER_NAME = 'username';
       public static $PASS_WORD = 'psword';
       public static $PASS_WORD2 = 'psword2';

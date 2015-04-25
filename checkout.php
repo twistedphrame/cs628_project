@@ -69,8 +69,9 @@
             ?>
         </table>
       </form>
-  <?php include("includes/footer.php"); ?>   
-  </div>  
+  <?php include("includes/footer.php"); ?>
+  </div>
+  </div>
 </body>
 
 </html>
