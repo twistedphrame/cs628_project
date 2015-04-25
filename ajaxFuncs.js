@@ -70,7 +70,7 @@ function order(username) {
   xhr.send("username="+username);
 }
 
-function updateOrderStatus(prodID, transID, username, newStatus) {
+function updateOrderStatus(prodID, transID, username, newStatus, pageToReturnTo) {
 "use strict";
   var xhr;
   if (window.XMLHttpRequest) {
@@ -87,7 +87,7 @@ function updateOrderStatus(prodID, transID, username, newStatus) {
       }
       if (xhr.readyState === 4) {
           if (xhr.status === 200 && xhr.status < 300) {
-            window.location.replace('recent_orders.php', '_SELF');
+            window.location.replace(pageToReturnTo, '_SELF');
           }
       }
   }

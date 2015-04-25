@@ -5,6 +5,7 @@
 </head>
 <body>
 	<div id = "container">
+  <script src='ajaxFuncs.js'></script>
   <?php
     session_start();
     include("includes/sql_queries.php");
@@ -34,6 +35,15 @@
       $total = ($order[TRANSACTION_TABLE::$PRICE]*$order[TRANSACTION_TABLE::$QUANTITY]);
       echo '<td>$'.number_format($total,2).'</td>';
       echo "<td>".shipping($order)."</td>";
+      
+      if($order[TRANSACTION_TABLE::$STATUS] == TRANSACTION_TABLE::$ORDER_PENDING) {
+        echo '<td><input type="button" value="SHIPPED" onclick="updateOrderStatus(\''.$order[TRANSACTION_TABLE::$PROD_ID].'\',\''
+                                                                          .$order[TRANSACTION_TABLE::$TRANS_ID].'\',\''
+                                                                          .$order[TRANSACTION_TABLE::$USER_NAME].'\',\''
+                                                                          .TRANSACTION_TABLE::$ORDER_SHIPPED.'\','
+                                                                          .'\'vendor_sale_reports.php?status=Pending\')" /></td>';
+      }
+      
       echo "</tr>";
       return $total;
     }

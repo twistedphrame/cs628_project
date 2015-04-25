@@ -17,7 +17,8 @@
         echo '<td><input type="button" value="CANCEL" onclick="updateOrderStatus(\''.$order[TRANSACTION_TABLE::$PROD_ID].'\',\''
                                                                                   .$order[TRANSACTION_TABLE::$TRANS_ID].'\',\''
                                                                                   .$order[TRANSACTION_TABLE::$USER_NAME].'\',\''
-                                                                                  .TRANSACTION_TABLE::$ORDER_CANCELLED.'\')" /></td>';
+                                                                                  .TRANSACTION_TABLE::$ORDER_CANCELLED.'\','
+                                                                                  .'\'recentOrders.php\')" /></td>';
       }
       echo "</tr>";
       if($order[TRANSACTION_TABLE::$STATUS] == TRANSACTION_TABLE::$ORDER_CANCELLED) {
