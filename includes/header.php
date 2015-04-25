@@ -1,12 +1,27 @@
 <html>
   <head><link rel = "stylesheet" href = "includes/style.css" type = "text/css" media = "screen" /></head>
 <body>
-	<div id = "header">
-		<h2>Online Shopping System</h2>
-	</div>
-	<div id = "navigation">
+	<div id = "header"><h2>Online Shopping System</h2></div>
+  <nav id="primary_nav_wrap">
     <ul>
 <?php
+
+  function makeNav($navArray) {
+    for($i = 0; $i < sizeof($navArray); $i++ ) {
+      echo '<li>';
+      if(!is_array($navArray[$i])) {
+        echo $navArray[$i];
+      }
+      if(($i+1) < sizeof($navArray) && is_array($navArray[$i+1])) {
+        $i++;
+        echo "<ul>";
+        makeNav($navArray[$i]);
+        echo "</ul>";
+      }
+      echo '</li>';
+    }
+  }
+
   $no_user = array();
   $no_user[] = '<a href="products.php">View Products</a>';
   $no_user[] = '<a href="signin.php">Sign In</a>';
@@ -19,14 +34,17 @@
   $customer[] = '<a href="signout.php">Sign Out</a>';
 
   $vendorApproved = array();
-  $vendor[] = '<a href="products.php">View Products</a>';
-  $vendor[] = '<a href="addproduct.php">Add Product</a>';
-  $vendor[] = '<a href="removeproduct.php">Remove Product</a';
-  $vendor[] = '<a href="editproduct.php">Edit Product</a>';
-  $vendor[] = '<a href="shopping_cart.php">Shopping Cart</a>';
-  $vendor[] = '<a href="recent_orders.php">My Orders</a>';
-  $vendor[] = '<a href="edit_profile.php">Edit Profile</a>';
-  $vendor[] = '<a href="signout.php">Sign Out</a>';
+  $vendorApproved[] = '<a href="products.php">View All Products</a>';
+  $vendorApproved[] = '<a href="#">My Products</a>';
+  $myProducts = array();
+  $myProducts[] = '<a href="addproduct.php">Add Product</a>';
+  $myProducts[] = '<a href="removeproduct.php">Remove Product</a>';
+  $myProducts[] = '<a href="editproduct.php">Edit Product</a>';
+  $vendorApproved[] = $myProducts;
+  $vendorApproved[] = '<a href="shopping_cart.php">Shopping Cart</a>';
+  $vendorApproved[] = '<a href="recent_orders.php">My Orders</a>';
+  $vendorApproved[] = '<a href="edit_profile.php">Edit Profile</a>';
+  $vendorApproved[] = '<a href="signout.php">Sign Out</a>';
 
   
   $admin = array();
@@ -45,7 +63,7 @@
       $selected = $admin;
     }
     elseif ($role == USER_TABLE::$ROLE_VENDOR && $_COOKIE[USER_TABLE::$APPROVED]) {
-      $selected = $vendor;
+      $selected = $vendorApproved;
     } else if($role == USER_TABLE::$ROLE_VENDOR && !$_COOKIE[USER_TABLE::$APPROVED]) {
       $selected = $customer;
     } elseif ($role == USER_TABLE::$ROLE_USER) {
@@ -57,11 +75,9 @@
     $selected = $no_user;
   }
   
-  foreach ($selected as $menu) {
-    echo '<li>'.$menu.'</li>';
-  }
+  makeNav($selected);
 ?>
 		</ul>
-	</div>
+    </nav>
 </body>
 </html>

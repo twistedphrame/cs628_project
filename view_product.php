@@ -18,10 +18,10 @@
 </head>
 
 <body>
-    <div id="content">
+    <div id = "container">
     <?php include("includes/header.php"); ?>
     <script src="ajaxFuncs.js"></script>
-    <div id="main" align="center">
+    <div id="content" align="center">
         <table>
             <tr>
                 <td colspan='2'><h2><?php echo $product[PRODUCT_TABLE::$PROD_NAME]; ?></h2></td>

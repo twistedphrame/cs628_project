@@ -27,14 +27,14 @@
     }
 ?>
 <head>
-    <title>Check Out</title>    
+    <title>Recent Purchases</title>    
 </head>
 
 <body>
-  <div id = "content">
+  <div id = "container">
   <?php include("includes/header.php"); ?>
   <script src="ajaxFuncs.js"></script>
-  <div id="main" align="center">
+  <div id="content" align="center">
     <form>
       <table>
         <?php

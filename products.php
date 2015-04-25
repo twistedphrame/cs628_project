@@ -10,7 +10,7 @@
 	<?php include("includes/header.php");?>
 	
 	<div id="content" align='center'>	
-		<h1>Products Page</h1>		
+		<h1>Products Page</h1>
 
     <script>
       function displayProducts() {

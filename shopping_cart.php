@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <div id = "content">
+  <div id = "container">
   
   <?php include("includes/header.php"); ?>
   <script src="ajaxFuncs.js"></script>
@@ -21,7 +21,7 @@
     }    
   </script>
   
-  <div id="main" align="center">
+  <div id="content" align="center">
     <form>
       <table>
         <?php

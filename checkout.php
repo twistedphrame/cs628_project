@@ -11,10 +11,10 @@
 </head>
 
 <body>
-  <div id = "content">
+  <div id = "container">
   <?php include("includes/header.php"); ?>
   <script src="ajaxFuncs.js"></script>
-  <div id="main" align="center">
+  <div id="content" align="center">
       <h2>Selected Products</h2>
       <table>
         <?php
