@@ -31,9 +31,10 @@
 </head>
 
 <body>
+  <div id = "content">
   <?php include("includes/header.php"); ?>
   <script src="ajaxFuncs.js"></script>
-  <div>
+  <div id="main" align="center">
     <form>
       <table>
         <?php
@@ -66,6 +67,7 @@
       </table>
     </form>
   </div>
+    <?php include("includes/footer.php"); ?>   
+  </div>
 </body>
-  <?php include("includes/footer.php"); ?>   
 </html>

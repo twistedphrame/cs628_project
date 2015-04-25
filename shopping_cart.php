@@ -11,6 +11,8 @@
 </head>
 
 <body>
+  <div id = "content">
+  
   <?php include("includes/header.php"); ?>
   <script src="ajaxFuncs.js"></script>
   <script>
@@ -18,7 +20,8 @@
       window.location.replace('checkout.php', '_SELF');
     }    
   </script>
-  <div>
+  
+  <div id="main" align="center">
     <form>
       <table>
         <?php
@@ -49,6 +52,15 @@
               echo '<td>$'.number_format($price,2).'</td>';
               $count = $product['selected_quantity'];
               echo '<td>';
+              
+              
+              if(  $product['selected_quantity'] > $product[PRODUCT_TABLE::$QUANTITY])
+              {//If there isn't enough of the product, decriment what the user can select/has selected
+                setcookie("prod_".$product[PRODUCT_TABLE::$PROD_ID],
+                $product[PRODUCT_TABLE::$QUANTITY],
+                time()+36000);
+                $product['selected_quantity'] =  $product[PRODUCT_TABLE::$QUANTITY];
+              }
               echo quantityDropDown('cart_'.$product[PRODUCT_TABLE::$PROD_ID], $product['selected_quantity'], $product[PRODUCT_TABLE::$QUANTITY]);
               echo '</td>';
               $total =$price*$count;
@@ -70,8 +82,9 @@
         ?>
       </table>
     </form>
-  </div>  
-  <?php include("includes/footer.php"); ?>   
+  </div>
+  <?php include("includes/footer.php"); ?>
+  </div>
 </body>
 
 </html>
