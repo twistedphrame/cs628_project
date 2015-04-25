@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2015 at 02:45 AM
+-- Generation Time: Apr 25, 2015 at 03:16 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`productid`, `category`, `productname`, `vendorid`, `description`, `price`, `productnumber`, `features`, `image`, `constraints`, `discount`, `approved`, `quantity`) VALUES
-(2, 'Food', 'food', 'vendor', 'food', 10, 10, 'food', 'food', 'food', 10, 0, 152);
+(2, 'Food', 'food', 'vendor', 'food', 10, 10, 'food', 'food', 'food', 10, 0, 143);
 
 -- --------------------------------------------------------
 
@@ -93,6 +93,14 @@ CREATE TABLE IF NOT EXISTS `transaction` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data for table `transaction`
+--
+
+INSERT INTO `transaction` (`transactionid`, `username`, `vendorid`, `productid`, `productamount`, `price`, `status`, `fname`, `lname`, `address`, `city`, `state`, `zipcode`) VALUES
+('2015-04-25 13:11:23', 'user1', 'vendor', 2, 9, 9, 's', 'User', 'One', '123 Addr Road', 'Long Branch', 'NJ', 7764),
+('2015-04-25 13:15:51', 'user1', 'vendor', 2, 20, 9, 'c', 'User', 'One', '123 Addr Road', 'Long Branch', 'NJ', 7764);
+
+--
 -- Triggers `transaction`
 --
 DROP TRIGGER IF EXISTS `decrimentQuantities`;
@@ -101,6 +109,14 @@ CREATE TRIGGER `decrimentQuantities` AFTER INSERT ON `transaction`
  FOR EACH ROW UPDATE product
      SET quantity = COALESCE(quantity, 0) -  COALESCE(NEW.productamount,0)
    WHERE productid = NEW.productid
+//
+DELIMITER ;
+DROP TRIGGER IF EXISTS `incrementOnCancel`;
+DELIMITER //
+CREATE TRIGGER `incrementOnCancel` AFTER UPDATE ON `transaction`
+ FOR EACH ROW UPDATE product
+     SET quantity = COALESCE(quantity, 0) +  COALESCE(NEW.productamount,0)
+   WHERE productid = NEW.productid AND NEW.status = 'c'
 //
 DELIMITER ;
 
