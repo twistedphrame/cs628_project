@@ -236,11 +236,13 @@
           . ' WHERE ' . TRANSACTION_TABLE::$TRANS_ID . ' = \'' . $this->transactionID . '\''
           . ' AND ' . TRANSACTION_TABLE::$USER_NAME . ' = \'' . $this->username . '\''
           . ' AND ' . TRANSACTION_TABLE::$PROD_ID . ' = \'' . $this->productid . '\'';
-      
+      echo $q;
       $r = mysqli_query($dbc, $q);
       if($r) {
+        echo "<BR>OK";
         return true;
       }
+      echo "<BR>no";
       return false;
     }    
   }

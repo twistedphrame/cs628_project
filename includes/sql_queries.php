@@ -61,6 +61,21 @@
     }
     
     
+    /**
+     * Given the product's status string it returns a more meaningful
+     * human readable status
+     */
+    function statusString($order) {
+      if($order[TRANSACTION_TABLE::$STATUS] == TRANSACTION_TABLE::$ORDER_CANCELLED) {
+        return 'Cancelled';
+      } elseif ($order[TRANSACTION_TABLE::$STATUS] == TRANSACTION_TABLE::$ORDER_PENDING) {
+        return "Pending";
+      } else {
+        return "Shipped";
+      }
+    }
+    
+    
       /**
    * Creates a drop down with name $name, containing
    * the items in the array $items.  And sets the
@@ -100,14 +115,27 @@
        createDropDown($name, range(1, $quantity), $selected);
     }  
     
+    function selectTransactionsForUserDescTime($dbc, $user) {
+      $q = 'SELECT * FROM '.TRANSACTION_TABLE::$NAME
+             .' WHERE '.TRANSACTION_TABLE::$USER_NAME.' = \''.$user.'\''
+             .' ORDER BY '.TRANSACTION_TABLE::$TRANS_ID.' DESC;';
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        $array = array();
+        while ($row = mysqli_fetch_assoc($r)) {
+            $array[] = $row;
+        }
+        return $array;
+      }
+      return array();
+    }
+    
+    
+
+
     
     function selectAllProductsQuery() {
       return 'SELECT * FROM '.PRODUCT_TABLE::$NAME;
-    }
-    
-    function selectTransactionForUser($user) {
-      return 'SELECT * FROM '.TRANSACTION_TABLE::$NAME
-             .' WHERE '.TRANSACTION_TABLE::$USER_NAME.' = \''.$user.'\';';
     }
     
     

@@ -66,6 +66,35 @@ function order(username) {
       }
   }
   xhr.open('POST', 'order.php');
-  xhr.send("username="+username);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.send("username="+username);
+}
+
+function updateOrderStatus(prodID, transID, username, newStatus) {
+"use strict";
+  var xhr;
+  if (window.XMLHttpRequest) {
+      xhr = new XMLHttpRequest();
+  } else if (window.ActiveXObject) {
+      xhr = new ActiveXObject("Msxml2.XMLHTTP");
+  } else {
+      throw new Error("Ajax is not supported by this browser");
+  }
+  //what do I do when i get a response back
+  xhr.onreadystatechange = function () {
+      if (xhr.status == 404) {
+        alert("Oh no, it does not exist!");
+      }
+      if (xhr.readyState === 4) {
+          if (xhr.status === 200 && xhr.status < 300) {
+            window.location.replace('recent_orders.php', '_SELF');
+          }
+      }
+  }
+  xhr.open('POST', 'order_status_update.php');
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.send("productid="+prodID
+         +"&transactionid="+transID
+         +"&username="+username
+         +"&status="+newStatus);
 }
