@@ -7,7 +7,7 @@
 
 <body>
 	<div id = "container">
-	<?php include("includes/header.html"); ?>
+	<?php include("includes/header.php"); ?>
 	
 	<div id = "content">
 		<?php
