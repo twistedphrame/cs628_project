@@ -35,15 +35,14 @@
 						$fname = $row[USER_TABLE::$FIRST_NAME];
 						$pwd = SHA1($psword);
 						$role = $row[USER_TABLE::$ROLE];
-						
-						echo $pwd;
-						
+						$approved = $row[USER_TABLE::$APPROVED];
+
 						if ($pwd == $row[USER_TABLE::$PASS_WORD]){
 							session_start();
 							setcookie(USER_TABLE::$USER_NAME,$username,time()+36000);
 							setcookie(USER_TABLE::$FIRST_NAME,$fname,time()+36000);
 							setcookie(USER_TABLE::$ROLE,$role,time()+36000);
-
+              setcookie(USER_TABLE::$APPROVED,$approved,time()+36000);
 							header('LOCATION: products.php');
 						}
 						else {

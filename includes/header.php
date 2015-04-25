@@ -18,7 +18,7 @@
   $customer[] = '<a href="edit_profile.php">Edit Profile</a>';
   $customer[] = '<a href="signout.php">Sign Out</a>';
 
-  $vendor = array();
+  $vendorApproved = array();
   $vendor[] = '<a href="products.php">View Products</a>';
   $vendor[] = '<a href="addproduct.php">Add Product</a>';
   $vendor[] = '<a href="removeproduct.php">Remove Product</a';
@@ -28,6 +28,7 @@
   $vendor[] = '<a href="edit_profile.php">Edit Profile</a>';
   $vendor[] = '<a href="signout.php">Sign Out</a>';
 
+  
   $admin = array();
   $admin[] = '<a href="products.php">View Products</a>';
   $admin[] = '<a href="addcategory.php">Add Category</a>';
@@ -43,10 +44,11 @@
     if($role == USER_TABLE::$ROLE_ADMIN) {
       $selected = $admin;
     }
-    elseif ($role == USER_TABLE::$ROLE_VENDOR) {
+    elseif ($role == USER_TABLE::$ROLE_VENDOR && $_COOKIE[USER_TABLE::$APPROVED]) {
       $selected = $vendor;
-    }
-    elseif ($role == USER_TABLE::$ROLE_USER) {
+    } else if($role == USER_TABLE::$ROLE_VENDOR && !$_COOKIE[USER_TABLE::$APPROVED]) {
+      $selected = $customer;
+    } elseif ($role == USER_TABLE::$ROLE_USER) {
       $selected = $customer;
     } else {
       $selected = $no_user;

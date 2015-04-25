@@ -28,7 +28,7 @@ body {
 }
 
 #container {
-	width: 900px; 	
+	width: 1000px; 	
 	margin:0 auto;
 	border:1px solid darkblue;
 	}
@@ -60,7 +60,7 @@ body {
 	background:#fafafa;
 	border-right:1px solid #999;
 
-	width:900px;
+	width:1000px;
 	height:40px;
 	list-style:none;
 }
@@ -90,7 +90,7 @@ body {
 	height:auto;
 
 	padding:0 0 20px;
-	width:900px;
+	width:1000px;
 	background: white;
 }
 #content h1 {
