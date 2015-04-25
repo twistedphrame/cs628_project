@@ -23,6 +23,7 @@
         }
       }
       session_destroy();
+      header('LOCATION: products.php');
 		?>
 	
 		<h1>You have signed out successfully!</h1>
