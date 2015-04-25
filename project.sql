@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2015 at 11:48 PM
+-- Generation Time: Apr 25, 2015 at 02:45 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`productid`, `category`, `productname`, `vendorid`, `description`, `price`, `productnumber`, `features`, `image`, `constraints`, `discount`, `approved`, `quantity`) VALUES
-(2, 'Food', 'food', 'vendor', 'food', 10, 10, 'food', 'food', 'food', 10, 0, 20);
+(2, 'Food', 'food', 'vendor', 'food', 10, 10, 'food', 'food', 'food', 10, 0, 152);
 
 -- --------------------------------------------------------
 
@@ -76,7 +76,7 @@ INSERT INTO `product` (`productid`, `category`, `productname`, `vendorid`, `desc
 --
 
 CREATE TABLE IF NOT EXISTS `transaction` (
-  `transactionid` datetime NOT NULL,
+  `transactionid` timestamp NOT NULL,
   `username` varchar(20) NOT NULL,
   `vendorid` varchar(20) NOT NULL,
   `productid` int(11) NOT NULL,
