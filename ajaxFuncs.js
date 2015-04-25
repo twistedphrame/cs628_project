@@ -47,7 +47,7 @@ function removeItemFromCart(prodID) {
   xhr.send("productid="+prodID);
 }
 
-function order() {
+function order(username) {
 "use strict";
   var xhr;
   if (window.XMLHttpRequest) {
@@ -66,5 +66,6 @@ function order() {
       }
   }
   xhr.open('POST', 'order.php');
+  xhr.send("username="+username);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 }

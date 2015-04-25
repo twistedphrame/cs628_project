@@ -41,14 +41,23 @@
     class TRANSACTION_TABLE {
       public static $NAME = 'transaction';
       public static $TRANS_ID = 'transactionid';
-      public static $USER_NAME = USER_TABLE::$USER_NAME;
-      public static $PROD_ID = PRODUCT_TABLE::$PROD_ID;
-      public static $QUANTITY = PRODUCT_TABLE::$QUANTITY;
-      public static $PRICE = PRODUCT_TABLE::$PRICE;
-      public static $DELIVERED = 'delivered';
+      public static $USER_NAME = 'username';
+      public static $VENDOR_ID = 'vendorid';
+      public static $PROD_ID = 'productid';
+      public static $QUANTITY = 'productamount';
+      public static $PRICE = 'price';
+      public static $STATUS = 'status';
+      public static $FIRST_NAME = 'fname';
+      public static $LAST_NAME = 'lname';
+      public static $ADDRESS = 'address';
+      public static $CITY = 'city';
+      public static $STATE = 'state';
+      public static $ZIP_CODE = 'zipcode';
       
-      public static $ORDER_PENDING = 'pending';
-      public static $ORDER_SHIPPED = 'shipped';
+      
+      public static $ORDER_PENDING = 'p';
+      public static $ORDER_SHIPPED = 's';
+      public static $ORDER_CANCELLED = 'c';
     }
     
     
@@ -97,7 +106,8 @@
     }
     
     function selectTransactionForUser($user) {
-      return 'SELECT * FROM '.PRODUCT_TABLE::$NAME;
+      return 'SELECT * FROM '.TRANSACTION_TABLE::$NAME
+             .' WHERE '.TRANSACTION_TABLE::$USER_NAME.' = \''.$user.'\';';
     }
     
     

@@ -64,7 +64,7 @@
       <br>
         <table>
             <?php            
-              echo '<td colspan="2"><input type="button" onclick="order()" value="PLACE ORDER" /></td></tr>';
+              echo '<td colspan="2"><input type="button" onclick="order(\''.$user[USER_TABLE::$USER_NAME].'\')" value="PLACE ORDER" /></td></tr>';
             ?>
         </table>
       </form>      
