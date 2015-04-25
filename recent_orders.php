@@ -9,7 +9,7 @@
     function transactionRow($dbc, $order) {
       echo "<tr><td></td>";
       $product = selectSingleProduct($dbc, $order[TRANSACTION_TABLE::$PROD_ID]);
-      echo "<td>".$product[PRODUCT_TABLE::$PROD_NAME].'-'.$order[TRANSACTION_TABLE::$PROD_ID]."</td>";
+      echo "<td>".$product[PRODUCT_TABLE::$PROD_NAME].'-'.$product[PRODUCT_TABLE::$PROD_NUMBER]."</td>";
       echo "<td>".$order[TRANSACTION_TABLE::$QUANTITY]."</td>";
       echo "<td>$".number_format($order[TRANSACTION_TABLE::$PRICE],2)."</td>";
       echo "<td>".statusString($order)."</td>";
@@ -24,6 +24,10 @@
         return 0;
       }
       return $order[TRANSACTION_TABLE::$QUANTITY] * $order[TRANSACTION_TABLE::$PRICE];
+    }
+    
+    function orderTotal($sum) {
+      echo "<tr><td colSpan=4 align=right>Order Total</td><td>$".number_format($sum,2)."</td></tr>";
     }
 ?>
 <head>
@@ -48,7 +52,7 @@
             foreach($orders as $order) {              
               if($order[TRANSACTION_TABLE::$TRANS_ID] != $orderDate) {
                 if($orderDate != NULL) {
-                  echo "<tr><td colSpan=4 align=right>Total</td><td>$".number_format($sum,2)."</td></tr>";
+                  orderTotal($sum);
                 }
                 $sum = 0;
                 $orderDate = $order[TRANSACTION_TABLE::$TRANS_ID];
@@ -60,7 +64,7 @@
               }
             }
             if($orderDate != NULL) { //Need to print out the last total
-              echo "<tr><td colSpan=4 align=right>Total:</td><td>".$sum."</td></tr>";
+              orderTotal($sum);
             }
           }
         ?>

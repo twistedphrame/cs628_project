@@ -76,6 +76,7 @@
     }
     
     
+    
       /**
    * Creates a drop down with name $name, containing
    * the items in the array $items.  And sets the
@@ -115,6 +116,9 @@
        createDropDown($name, range(1, $quantity), $selected);
     }  
     
+    /**
+     * Gets all the orders, newest first for this user
+     */
     function selectTransactionsForUserDescTime($dbc, $user) {
       $q = 'SELECT * FROM '.TRANSACTION_TABLE::$NAME
              .' WHERE '.TRANSACTION_TABLE::$USER_NAME.' = \''.$user.'\''
@@ -130,6 +134,28 @@
       return array();
     }
     
+    
+    
+    
+    /**
+     * Gets all the sales, newest first for this vendor of the given type.
+     */
+    function selectTransactionsForVendorDescTime($dbc, $vendor, $type) {
+      $q = 'SELECT * FROM '.TRANSACTION_TABLE::$NAME
+             .' WHERE '.TRANSACTION_TABLE::$VENDOR_ID.' = \''.$vendor.'\''
+             .' AND '.TRANSACTION_TABLE::$STATUS.' =\''.$type.'\''
+             .' ORDER BY '.TRANSACTION_TABLE::$TRANS_ID.' DESC;';
+             
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        $array = array();
+        while ($row = mysqli_fetch_assoc($r)) {
+            $array[] = $row;
+        }
+        return $array;
+      }
+      return array();
+    }
     
 
 

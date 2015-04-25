@@ -22,6 +22,8 @@
     }
   }
 
+  
+  
   $no_user = array();
   $no_user[] = '<a href="products.php">View Products</a>';
   $no_user[] = '<a href="signin.php">Sign In</a>';
@@ -41,6 +43,13 @@
   $myProducts[] = '<a href="removeproduct.php">Remove Product</a>';
   $myProducts[] = '<a href="editproduct.php">Edit Product</a>';
   $vendorApproved[] = $myProducts;
+  
+  $vendorApproved[] = '<a href="#">Reports</a>';
+  $saleReports = array();
+  $saleReports[] = '<a href="vendor_sale_reports.php">Sale Reports</a>';
+  $saleReports[] = '<a href="vendor_quantities.php">Remaining Stock</a>';
+  $vendorApproved[] = $saleReports;
+  
   $vendorApproved[] = '<a href="shopping_cart.php">Shopping Cart</a>';
   $vendorApproved[] = '<a href="recent_orders.php">My Orders</a>';
   $vendorApproved[] = '<a href="edit_profile.php">Edit Profile</a>';
