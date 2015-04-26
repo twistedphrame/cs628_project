@@ -294,7 +294,24 @@
     }
     
     
-    
+    /**
+     * Returns an array of arrays.
+     * Each internal array represents a single product from the specified vendor of the given category
+     * The format of each of these arrays is the same as the array returned from selectSingleProduct
+     */
+    function selectAllProductsByVendorInCategory($dbc, $vendor, $category) {
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$VEND_ID.'=\''.$vendor.'\''
+                                   .' AND '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\';';
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        $array = array();
+        while ($row = mysqli_fetch_assoc($r)) {
+            $array[] = $row;
+        }
+        return $array;
+      }
+      return array();
+    }
     
     
     /**
