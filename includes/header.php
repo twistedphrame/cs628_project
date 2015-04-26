@@ -67,8 +67,9 @@
   
   $admin[] = '<a href="#">Reports</a>';
   $reports = array();
-  $reports[] = '<a href="customer_report.php">Customers</a>';
+  $reports[] = '<a href="customer_report.php">User Information</a>';
   $reports[] = '<a href="pending_product_report.php">Pending Products</a>';
+  $reports[] = '<a href="pending_vendors.php">Pending Vendors</a>';
   $reports[] = '<a href="vendor_report.php">Vendors</a>';
   $reports[] = '<a href="sales_report.php">Sales</a>';
   $admin[] = $reports;

@@ -191,6 +191,14 @@
       return array();
     }
     
+    function selectSingleCustomer($dbc, $userName) {
+      $q = 'SELECT * FROM '.USER_TABLE::$NAME.' WHERE '.USER_TABLE::$USER_NAME.' = \''.$userName.'\'';
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        return mysqli_fetch_assoc($r);
+      }
+      return array();
+    }
 
 
     
