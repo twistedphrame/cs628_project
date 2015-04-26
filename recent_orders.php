@@ -2,7 +2,9 @@
 <?php
     session_start();
     include("includes/sql_queries.php");
-    if (!isset($_COOKIE[USER_TABLE::$USER_NAME])) {
+    if (!isset($_COOKIE[USER_TABLE::$USER_NAME])
+        || ($_COOKIE[USER_TABLE::$ROLE] != USER_TABLE::$ROLE_USER
+            && $_COOKIE[USER_TABLE::$ROLE] != USER_TABLE::$ROLE_VENDOR)) {
       header('LOCATION: shopping_cart.php');
     }
     

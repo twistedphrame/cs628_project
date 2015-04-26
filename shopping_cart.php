@@ -2,7 +2,9 @@
 <?php
     include("includes/sql_queries.php");
     session_start();
-    if (!isset($_COOKIE[USER_TABLE::$USER_NAME])) {
+    if (!isset($_COOKIE[USER_TABLE::$USER_NAME])
+        || ($_COOKIE[USER_TABLE::$ROLE] != USER_TABLE::$ROLE_USER
+            && $_COOKIE[USER_TABLE::$ROLE] != USER_TABLE::$ROLE_VENDOR)) {
       header('LOCATION: products.php');
     }
 ?>
