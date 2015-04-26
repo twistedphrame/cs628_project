@@ -138,24 +138,8 @@
 					<td>
 					
 						<?php 
-							$catarray = array();
 							include("dbc.php");
-							$q = "SELECT * FROM categories"; //creates a query that pulls all the information for classes that match the subject that was selected from the drop down menu
-							$r = mysqli_query($dbc, $q);
-							while ($row = mysqli_fetch_array($r)){
-								array_push($catarray,"$row[catname]");
-							}
-							echo '<select name ="category">'; //echo'd so the web browser can pick it up
-								foreach($catarray as $cat){
-									echo '<option value = "'.$cat.'"';
-									if (isset($_POST['category'])) {
-										if ($cat == $_POST['category'])  echo 'selected ="selected"';
-									}
-									echo '>'.$cat.'</option>';
-								}
-							echo '</select>';
-					
-							
+              categoryDropDown($dbc, "category", $_POST['category']);
 						?>
 					</td> 
 				</tr>

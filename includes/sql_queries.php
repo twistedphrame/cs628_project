@@ -37,6 +37,11 @@
       public static $ROLE_USER = 'customer';
     }
 
+    class CATEGORY_TABLE {
+      public static $NAME = 'categories';
+      public static $CAT_ID = 'categoryid';
+      public static $CAT_NAME = 'catname';
+    }
     
     class TRANSACTION_TABLE {
       public static $NAME = 'transaction';
@@ -134,6 +139,35 @@
       return array();
     }
     
+    
+    /**
+     * Returns an array of arrays, each internal array is a
+     * category
+     */
+    function categories($dbc) {
+      $q = 'SELECT * FROM '.CATEGORY_TABLE::$NAME
+            .' ORDER BY '.CATEGORY_TABLE::$CAT_NAME.' DESC;';
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        $array = array();
+        while ($row = mysqli_fetch_assoc($r)) {
+            $array[] = $row;
+        }
+        return $array;
+      }
+      return array();
+    }
+    
+    /**
+     * Creates a drop down based on the current categories
+     */
+    function categoryDropDown($dbc, $name, $selected) {
+      $cats = array();
+      foreach(categories($dbc) as $cat) {
+        $cats[] = $cat[CATEGORY_TABLE::$CAT_NAME];
+      }
+      createDropDown($name, $cats, $selected);
+    }
     
     
     

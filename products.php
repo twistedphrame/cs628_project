@@ -30,7 +30,8 @@
           if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET[PRODUCT_TABLE::$CATEGORY])) {
             $category = $_GET[PRODUCT_TABLE::$CATEGORY];
           }
-					createDropDown('category', array("Food", "Electronics", "Clothing", "Books", "Movies"), $category);
+          include("dbc.php");
+          categoryDropDown($dbc, 'category', $category);
 				?>
 				</td>
         <td>
