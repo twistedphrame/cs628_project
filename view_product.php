@@ -44,7 +44,9 @@
 														} else {
 																echo '<tr><td>Cost:</td><td>'.$product[PRODUCT_TABLE::$PRICE].'</td></tr>';
 														}
-                            if($product[PRODUCT_TABLE::$QUANTITY] > 0) {
+                            if($_COOKIE[USER_TABLE::$ROLE] == USER_TABLE::$ROLE_ADMIN) {
+                              echo '<tr><td colspan=2><b>CART DISABLED FOR ADMIN</b></td></tr>';
+                            }elseif($product[PRODUCT_TABLE::$QUANTITY] > 0) {
                               echo '<tr><td>Quantity:</td><td>';
                               echo quantityDropDown(PRODUCT_TABLE::$QUANTITY, NULL, $product[PRODUCT_TABLE::$QUANTITY]);
                               echo '</td></tr>';
