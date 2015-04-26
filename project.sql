@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2015 at 03:16 PM
+-- Generation Time: Apr 26, 2015 at 09:15 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -60,14 +60,15 @@ CREATE TABLE IF NOT EXISTS `product` (
   `approved` tinyint(1) NOT NULL DEFAULT '0',
   `quantity` int(10) NOT NULL,
   PRIMARY KEY (`productid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `product`
 --
 
 INSERT INTO `product` (`productid`, `category`, `productname`, `vendorid`, `description`, `price`, `productnumber`, `features`, `image`, `constraints`, `discount`, `approved`, `quantity`) VALUES
-(2, 'Food', 'food', 'vendor', 'food', 10, 10, 'food', 'food', 'food', 10, 0, 143);
+(2, 'Food', 'food', 'vendor', 'food', 10, 10, 'food', 'food.jpg', 'food', 10, 1, 189),
+(3, 'Food2', 'Fooodsss', 'vendor', 'food', 10, 10, 'food', 'food.jpg', 'food', 10, 0, 207);
 
 -- --------------------------------------------------------
 
@@ -97,8 +98,11 @@ CREATE TABLE IF NOT EXISTS `transaction` (
 --
 
 INSERT INTO `transaction` (`transactionid`, `username`, `vendorid`, `productid`, `productamount`, `price`, `status`, `fname`, `lname`, `address`, `city`, `state`, `zipcode`) VALUES
-('2015-04-25 13:11:23', 'user1', 'vendor', 2, 9, 9, 's', 'User', 'One', '123 Addr Road', 'Long Branch', 'NJ', 7764),
-('2015-04-25 13:15:51', 'user1', 'vendor', 2, 20, 9, 'c', 'User', 'One', '123 Addr Road', 'Long Branch', 'NJ', 7764);
+('2015-04-22 19:05:29', 'user1', 'vendor2', 2, 9, 9, 's', 'User', 'One', '123 Addr Road', 'Long Branch', 'NJ', 7764),
+('2015-04-25 21:03:43', 'user1', 'vendor2', 2, 9, 9, 's', 'User', 'One', '123 Addr Road', 'Long Branch', 'NJ', 7764),
+('2015-04-25 21:03:47', 'user1', 'vendor2', 2, 20, 9, 'c', 'User', 'One', '123 Addr Road', 'Long Branch', 'NJ', 7764),
+('2015-04-25 23:25:53', 'user1', 'vendor2', 2, 13, 9, 's', 'User', 'One', '123 Addr Road', 'Long Branch', 'NJ', 7764),
+('2015-04-26 19:05:42', 'user1', 'vendor2', 2, 9, 9, 's', 'User', 'One', '123 Addr Road', 'Long Branch', 'NJ', 7764);
 
 --
 -- Triggers `transaction`
@@ -150,9 +154,11 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`username`, `fname`, `lname`, `psword`, `address`, `city`, `state`, `zipcode`, `email`, `phone`, `lastlogin`, `loginattempts`, `role`, `approved`) VALUES
 ('admin', 'admin', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'adminville', 'admin', 'NJ', 7712, 'admin', '1111111', '0000-00-00', 0, 'admin', 0),
+('admin2', 'Admin', 'Two', '9d737ae503ed092cd1b5e2fec61d8474be13a9c1', '123 Addr Road', 'Long Branch', 'NJ', 7764, 'vendor2@email.com', '1234567890', '0000-00-00', 0, 'admin', 1),
 ('user1', 'User', 'One', 'b3daa77b4c04a9551b8781d03191fe098f325e67', '123 Addr Road', 'Long Branch', 'NJ', 7764, 'user1@email.com', '1234567890', '0000-00-00', 0, 'customer', 0),
 ('user2', 'User', 'Two', 'a1881c06eec96db9901c7bbfe41c42a3f08e9cb4', '123 Addr Road', 'Columbia', 'FL', 7764, 'fake@email.com', '3332221111', '0000-00-00', 0, 'customer', 0),
-('vendor', 'vendor', 'vendor', '9fdcb2f441fcdd2e24e21bf8d45413ae72c0443c', 'vendor', 'vendor', 'NJ', 7755, 'vendor', '111111', '0000-00-00', 0, 'vendor', 0);
+('vendor', 'vendor', 'vendor', '9fdcb2f441fcdd2e24e21bf8d45413ae72c0443c', 'vendor', 'vendor', 'NJ', 7755, 'vendor', '111111', '0000-00-00', 0, 'vendor', 0),
+('vendor2', 'Vendor', 'Two', '9d737ae503ed092cd1b5e2fec61d8474be13a9c1', '123 Addr Road', 'Long Branch', 'NJ', 7764, 'vendor2@email.com', '1234567890', '0000-00-00', 0, 'vendor', 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
