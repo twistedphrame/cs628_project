@@ -58,9 +58,21 @@
   
   $admin = array();
   $admin[] = '<a href="products.php">View Products</a>';
-  $admin[] = '<a href="addcategory.php">Add Category</a>';
-  $admin[] = '<a href="removecategory.php">Remove Category</a>';
-  $admin[] = '<a href="vendormanage.php">Vendor Management</a>';
+  
+  $admin[] = '<a href="#">Categories</a>';
+  $categories = array();
+  $categories[] = '<a href="addcategory.php">Add Category</a>';
+  $categories[] = '<a href="removecategory.php">Remove Category</a>';
+  $admin[] = $categories;
+  
+  $admin[] = '<a href="#">Reports</a>';
+  $reports = array();
+  $reports[] = '<a href="customer_report.php">Customers</a>';
+  $reports[] = '<a href="pending_product_report.php">Pending Products</a>';
+  $reports[] = '<a href="vendor_report.php">Vendors</a>';
+  $reports[] = '<a href="sales_report.php">Sales</a>';
+  $admin[] = $reports;
+  
   $admin[] = '<a href="edit_profile.php">Edit Profile</a>';
   $admin[] = '<a href="signout.php">Sign Out</a>';
   
