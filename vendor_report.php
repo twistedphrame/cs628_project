@@ -24,34 +24,48 @@
     function orderTotal($sum) {
       echo "<tr><td colSpan=4 align=right>Order Total</td><td>$".number_format($sum,2)."</td></tr>";
     }
+    
+    function tableHeader() {
+      echo '<tr>';
+      echo '<td>Product</td>';
+      echo '<td>Category</td>';
+      echo '<td>Image</td>';
+      echo '<td>Description</td>';
+      echo '<td>Features</td>';
+      echo '<td>Constraintes</td>';
+      echo '<td>Price</td>';
+      echo '<td>Discount</td>';
+      echo '<td>Quantity</td>';
+      echo '</tr>';
+    }
 ?>
 <head>
-    <title>User Report</title>    
+    <title>Vendor Report</title>    
 </head>
 <body>
+    <div id = "container">
+    <?php include("includes/header.php"); ?>
+    <script src="ajaxFuncs.js"></script>
     <script>
     	function search() {
 				var userSearch = document.getElementById("username");
 				var user = userSearch.value;
-				window.location.replace('customer_report.php?username='+user, '_SELF');
+				window.location.replace('vendor_report.php?username='+user, '_SELF');
 			}
     </script>
-    <div id = "container">
-    <?php include("includes/header.php"); ?>
-    <script src="ajaxFuncs.js"></script>
     <div id="content" align="center">
       <?php
         $userName = '';
         if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET[USER_TABLE::$USER_NAME])) {
           $userName = $_GET[USER_TABLE::$USER_NAME];
           include("dbc.php");
-          $userInfo = selectSingleCustomer($dbc, $userName);
+          $userInfo = selectSingleVendor($dbc, $userName);
         }
       ?>
       <form>
         <table>
           <tr>
-            <td>User Search:</td>
+            <td>Vendor Search:</td>
             <td>
               <?php
                 echo '<input type="text" id="'.USER_TABLE::$USER_NAME.'" name="'.USER_TABLE::$USER_NAME.'" value="'.$userName.'"/>'
@@ -65,7 +79,7 @@
             <td colspan='3'><div style="color: red">
               <?php
                 if($userName != '' && empty($userInfo)) {
-                  echo "Could not find customer.";
+                  echo "Could not find vendor.";
                 }
               ?>
             </div></td>
@@ -79,16 +93,12 @@
           echo '<table>';
           echo '<tr><td>First Name:</td><td>'.$userInfo[USER_TABLE::$FIRST_NAME].'</td></tr>';
           echo '<tr><td>Last Name:</td><td>'.$userInfo[USER_TABLE::$LAST_NAME].'</td></tr>';
-          echo '<tr><td>Role:</td><td>'.$userInfo[USER_TABLE::$ROLE].'</td></tr>';
-          if($userInfo[USER_TABLE::$ROLE] == USER_TABLE::$ROLE_VENDOR) {
-            
-            echo '<tr><td>Approved:</td><td>';
-            if($userInfo[USER_TABLE::$APPROVED]) {
-              echo 'Yes</td></tr>';
-            } else {
-              echo 'No</td><td><input type="button" value="APPROVE" onclick="approveVendor(\''
-                            .$userInfo[USER_TABLE::$USER_NAME].'\',\'customer_report.php?username='.$userInfo[USER_TABLE::$USER_NAME].'\')" /></td></tr>';
-            }
+          echo '<tr><td>Approved:</td><td>';
+          if($userInfo[USER_TABLE::$APPROVED]) {
+            echo 'Yes</td></tr>';
+          } else {
+            echo 'No</td><td><input type="button" value="APPROVE" onclick="approveVendor(\''
+                            .$userInfo[USER_TABLE::$USER_NAME].'\',\'vendor_report.php?username='.$userInfo[USER_TABLE::$USER_NAME].'\')" /></td></tr>';
           }
           echo '<tr><td>Address:</td><td>'.$userInfo[USER_TABLE::$ADDRESS].'</td></tr>';
           echo '<tr><td>City:</td><td>'.$userInfo[USER_TABLE::$CITY].'</td></tr>';
@@ -98,6 +108,33 @@
           echo '<tr><td>Phone:</td><td>'.$userInfo[USER_TABLE::$PHONE].'</td></tr>';
           echo '</table>';
           
+          echo '<br><h2>Offered Products</h2>';
+          $products = selectAllProductsByVendorSortedByApproval($dbc, $userName);
+          if(empty($products)) {
+            echo "This vendor has no products";
+          }else {
+            $approved = false;
+            $pending = false;
+            echo "<table align=center>";
+            foreach($products as $product) {
+              if($product[PRODUCT_TABLE::$APPROVED]) {
+                if(!$approved) {
+                  $approved = true;
+                  echo "<tr><td align='center' colspan=10><br><h4>Approved Products</h4></td></tr>";
+                  tableHeader();
+                }
+                approvedProductRow($product, false);
+              } else {
+                if(!$pending) {
+                  $pending = true;
+                  echo "<tr><td align='center' colspan=10><br><h4>Pending Products</h4></td></tr>";
+                  tableHeader();
+                }
+                pendingProductRow($product, false, 'vendor_report.php?'.USER_TABLE::$USER_NAME.'='.$userName);
+              }
+            }
+            echo "</table>";
+          }
           echo '<br><h2>Order History</h2>';
           $orders = selectTransactionsForUserDescTime($dbc, $userName);
           if(empty($orders)) {

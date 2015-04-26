@@ -141,6 +141,23 @@
     
     
     /**
+     * Gets all orders in descending time
+     */
+    function allTransactionsDescendingTime($dbc) {
+      $q = 'SELECT * FROM '.TRANSACTION_TABLE::$NAME
+             .' ORDER BY '.TRANSACTION_TABLE::$TRANS_ID.' DESC;';
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        $array = array();
+        while ($row = mysqli_fetch_assoc($r)) {
+            $array[] = $row;
+        }
+        return $array;
+      }
+      return array();
+    }
+    
+    /**
      * Returns an array of arrays, each internal array is a
      * category
      */
@@ -199,6 +216,18 @@
       }
       return array();
     }
+    
+        
+    function selectSingleVendor($dbc, $userName) {
+      $q = 'SELECT * FROM '.USER_TABLE::$NAME
+                           .' WHERE '.USER_TABLE::$USER_NAME.' = \''.$userName.'\''
+                           .' AND '.USER_TABLE::$ROLE.' = \''.USER_TABLE::$ROLE_VENDOR.'\'';
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        return mysqli_fetch_assoc($r);
+      }
+      return array();
+    }
 
 
     
@@ -238,8 +267,8 @@
     }
     
     function selectSingleApprovedProduct($dbc, $productID) {
-      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$PROD_ID.' = \''.$productID.'\';';
-                                   //.' AND '.PRODUCT_TABLE::$APPROVED.' = 1;';    
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$PROD_ID.' = \''.$productID.'\' '
+                                   .' AND '.PRODUCT_TABLE::$APPROVED.' = 1;';    
       $r = mysqli_query($dbc, $q);
       if($r) {
         return mysqli_fetch_assoc($r);
@@ -270,8 +299,8 @@
      * The format of each of these arrays is the the same as the array returned from selectSingleProduct
      */
     function selectApprovedProductsByCategory($dbc, $category) {
-      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\';';
-                                             //.'AND '.PRODUCT_TABLE::$APPROVED.'=\'1\';';
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\''
+                                             .' AND '.PRODUCT_TABLE::$APPROVED.'=\'1\';';
       $r = mysqli_query($dbc, $q);
       if($r) {
         $array = array();
@@ -301,15 +330,14 @@
       return array();
     }
     
-    
-    /**
+            /**
      * Returns an array of arrays.
-     * Each internal array represents a single product from the specified vendor of the given category
-     * The format of each of these arrays is the same as the array returned from selectSingleProduct
+     * Each internal array represents a single product from the specified vendor.
+     * The format of each of these arrays is the the same as the array returned from selectSingleProduct
      */
-    function selectAllProductsByVendorInCategory($dbc, $vendor, $category) {
+    function selectAllProductsByVendorSortedByApproval($dbc, $vendor) {
       $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$VEND_ID.'=\''.$vendor.'\''
-                                   .' AND '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\';';
+                                  .' ORDER BY '.PRODUCT_TABLE::$APPROVED.' ASC;';
       $r = mysqli_query($dbc, $q);
       if($r) {
         $array = array();
@@ -321,6 +349,66 @@
       return array();
     }
     
+    
+    /**
+     * Returns an array of arrays.
+     * Each internal array represents a single product from the specified vendor of the given category
+     * The format of each of these arrays is the same as the array returned from selectSingleProduct
+     */
+    function selectAllProductsByVendorInCategory($dbc, $vendor, $category) {
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$VEND_ID.'=\''.$vendor.'\''
+                                   .' AND '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\''
+                                   .' ORDER BY '.PRODUCT_TABLE::$APPROVED.' ASC;';
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        $array = array();
+        while ($row = mysqli_fetch_assoc($r)) {
+            $array[] = $row;
+        }
+        return $array;
+      }
+      return array();
+    }
+    
+    
+    /**
+     * Returns an array of arrays.
+     * Each internal array represents a single pending product
+     * The format of each of these arrays is the same as the array returned from selectSingleProduct
+     */
+    function selectPendingProducts($dbc) {
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$APPROVED.'=\'0\''
+                                   .' ORDER BY '.PRODUCT_TABLE::$PROD_NAME.' DESC;';
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        $array = array();
+        while ($row = mysqli_fetch_assoc($r)) {
+            $array[] = $row;
+        }
+        return $array;
+      }
+      return array();
+    }
+    
+    
+      /**
+     * Returns an array of arrays.
+     * Each internal array represents a single pending vendor
+     */
+    function selectPendingVendors($dbc) {
+      $q = 'SELECT * FROM '.USER_TABLE::$NAME.' WHERE '.USER_TABLE::$APPROVED.'=\'0\''
+                                   .' AND '.USER_TABLE::$ROLE.'=\''.USER_TABLE::$ROLE_VENDOR.'\''
+                                   .' ORDER BY '.USER_TABLE::$USER_NAME.' DESC;';
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        $array = array();
+        while ($row = mysqli_fetch_assoc($r)) {
+            $array[] = $row;
+        }
+        return $array;
+      }
+      return array();
+    }
     
     /**
      * Goes through the user's cookies and returns an array of product arrays
@@ -341,5 +429,54 @@
         }
       }
       return $array;
+    }
+    
+    /**
+     *Standard row output for an approved row in the reports
+     */
+    function approvedProductRow($product, $includeVendorID) {
+      approvedProductRowTROptional($product, $includeVendorID, true);
+    }
+    
+    
+    /**
+     *Standard row output for an approved row in the reports
+     *
+     *$includeTRs = true or false, depending on if the opening and closing <tr>
+     *elements should be echo'd by this method
+     */
+    function approvedProductRowTROptional($product, $includeVendorID, $includeTRs) {
+      if($includeTRs){
+        echo '<tr>';
+      }
+      echo '<td>'.$product[PRODUCT_TABLE::$PROD_NAME].'-'.$product[PRODUCT_TABLE::$PROD_NUMBER].'</td>';
+      if($includeVendorID) {
+        echo '<td>'.$product[PRODUCT_TABLE::$VEND_ID].'</td>';
+      }
+      echo '<td>'.$product[PRODUCT_TABLE::$CATEGORY].'</td>';
+      echo '<td><img src="images/'.$product[PRODUCT_TABLE::$IMAGE].'" height="66" width="100" /></td>';
+      echo '<td>'.$product[PRODUCT_TABLE::$DESCRIPTION].'</td>';
+      echo '<td>'.$product[PRODUCT_TABLE::$FEATURES].'</td>';
+      echo '<td>'.$product[PRODUCT_TABLE::$CONSTRAINTS].'</td>';
+      echo '<td>$'.number_format($product[PRODUCT_TABLE::$PRICE],2).'</td>';
+      echo '<td>'.$product[PRODUCT_TABLE::$DISCOUNT].'%</td>';
+      echo '<td>'.$product[PRODUCT_TABLE::$QUANTITY].'</td>';
+      if($includeTRs){
+        echo '</tr>';
+      }
+    }
+    
+    
+    /**
+     * Makes a row representing a pending product with an option
+     * to approve the product.
+     * MAKE SURE ajaxFuncs is included!
+     */
+    function pendingProductRow($product, $includeVendorID, $returnPage) {
+      echo '<tr>';
+      approvedProductRowTROptional($product, $includeVendorID, false);
+      echo '<td><input type="button" value="APPROVE" onclick="approveProduct(\''
+                            .$product[PRODUCT_TABLE::$PROD_ID].'\',\''.$returnPage.'\')" /></td>';
+      echo '</tr>';
     }
 ?>

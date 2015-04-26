@@ -112,3 +112,70 @@ function updateOrderStatus(prodID, transID, username, newStatus, pageToReturnTo)
            +"&status="+newStatus);
   }
 }
+
+
+/**
+ * Approves the product with the given product ID for sale and
+ * returns to the given page.
+ */
+function approveProduct(prodID, pageToReturnTo) {
+  "use strict";
+  var r = confirm("Are you sure you want to approve this product for sale?");
+  if (r) {
+    var xhr;
+    if (window.XMLHttpRequest) {
+        xhr = new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+        xhr = new ActiveXObject("Msxml2.XMLHTTP");
+    } else {
+        throw new Error("Ajax is not supported by this browser");
+    }
+    //what do I do when i get a response back
+    xhr.onreadystatechange = function () {
+        if (xhr.status == 404) {
+          alert("Oh no, it does not exist!");
+        }
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200 && xhr.status < 300) {
+              window.location.replace(pageToReturnTo, '_SELF');
+            }
+        }
+    }
+    xhr.open('POST', 'approve_product.php');
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send("productid="+prodID);
+  }
+}
+
+/*
+ * Approves the vendor to start acting as a vendor
+ * returns to the given page.
+ */
+function approveVendor(vendorID, pageToReturnTo) {
+  "use strict";
+  var r = confirm("Are you sure you want to approve this vendor?");
+  if (r) {
+    var xhr;
+    if (window.XMLHttpRequest) {
+        xhr = new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+        xhr = new ActiveXObject("Msxml2.XMLHTTP");
+    } else {
+        throw new Error("Ajax is not supported by this browser");
+    }
+    //what do I do when i get a response back
+    xhr.onreadystatechange = function () {
+        if (xhr.status == 404) {
+          alert("Oh no, it does not exist!");
+        }
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200 && xhr.status < 300) {
+              window.location.replace(pageToReturnTo, '_SELF');
+            }
+        }
+    }
+    xhr.open('POST', 'approve_vendor.php');
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send("username="+vendorID);
+  }
+}
