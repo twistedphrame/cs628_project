@@ -163,7 +163,7 @@
      */
     function categories($dbc) {
       $q = 'SELECT * FROM '.CATEGORY_TABLE::$NAME
-            .' ORDER BY '.CATEGORY_TABLE::$CAT_NAME.' DESC;';
+            .' ORDER BY '.CATEGORY_TABLE::$CAT_NAME.' ASC;';
       $r = mysqli_query($dbc, $q);
       if($r) {
         $array = array();

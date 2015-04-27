@@ -85,8 +85,16 @@
 					//3. execute the query
 					$r = mysqli_query($dbc, $q);
 					//4. Sanity check 
-					if($r) echo "Record is inserted into database.";
-					else echo "Something is wrong.";
+					if($r) {
+						$subject = 'You Have Been Regestered!';
+						$message = "Hi ". $fname . ' Thank you for registing at the Online Shipping System!';
+						$headers = 'From: Online Shopping System' . "\r\n" .
+    				'Reply-To: ' . "\r\n" .	'X-Mailer: PHP/' . phpversion();
+						mail($email, $subject, $message, $headers);
+						echo "Thank you for registering.";
+					} else {
+						echo "Something is wrong.";
+					}
 				}				
 				else{
 					foreach($error as $err){
