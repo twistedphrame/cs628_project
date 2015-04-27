@@ -10,12 +10,10 @@
     if(empty($products)) {
       header('LOCATION: shopping_cart.php');
     }
-    $q = 'SELECT * FROM '.USER_TABLE::$NAME.' WHERE '.USER_TABLE::$USER_NAME.' = \''.$_COOKIE[USER_TABLE::$USER_NAME].'\'';
-    $r = mysqli_query($dbc, $q);
-    if(!$r || mysqli_num_rows($r) != 1) {
+    $user = selectSingleCustomer($dbc, $_COOKIE[USER_TABLE::$USER_NAME]);
+    if(empty($user)) {
       header('LOCATION: shopping_cart.php');
     }
-    $user = mysqli_fetch_array($r);
     date_default_timezone_set('America/New_York');
     $trans_id = date('Y-m-d H:i:s', time());    
     $transaction = new Transaction();
@@ -28,6 +26,7 @@
                 ->setState($user[USER_TABLE::$STATE])
                 ->setZipCode($user[USER_TABLE::$ZIP_CODE])
                 ->setTransactionID($trans_id);
+    require_once("include/sql_queries.php");
     foreach($products as $product) {
       setcookie('prod_'.$product[PRODUCT_TABLE::$PROD_ID], '', time()-1000);
       $transaction->setQuantity($product['selected_quantity'])
@@ -35,6 +34,13 @@
                   ->setProductID($product[PRODUCT_TABLE::$PROD_ID])
                   ->setVendorID($product[PRODUCT_TABLE::$VEND_ID])
                   ->insert($dbc);
+      $vendor =  selectSingleCustomer($dbc, $product[PRODUCT_TABLE::$VEND_ID]);
+      $subject = 'You made a sale!';
+      $message = "Hi ". $vendor[USER_TABLE::$FIRST_NAME] . ' A user has purchased: '.$product['selected_quantity']
+                  .' of item: '.$product[PRODUCT_TABLE::$PROD_NAME].'-'.$product[PRODUCT_TABLE::$PROD_NUM].'!';
+      $headers = 'From: Online Shopping System' . "\r\n" .
+      'Reply-To: ' . "\r\n" .	'X-Mailer: PHP/' . phpversion();
+      mail($vendor[USER_TABLE::$EMAIL], $subject, $message, $headers);
     }
     
     $subject = 'Thank you for your order!';
