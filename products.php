@@ -5,6 +5,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 </head>
 <body>
+
 	<div id = "container">
   <?php include("includes/sql_queries.php"); ?> 
 	<?php include("includes/header.php");?>
@@ -56,7 +57,8 @@
         include("dbc.php");
         foreach(selectApprovedProductsByCategory($dbc, $category) as $product) {
           echo "<tr>";
-            echo '<td><a href="view_product.php?'.PRODUCT_TABLE::$PROD_ID.'='.$product[PRODUCT_TABLE::$PROD_ID].'">'.$product[PRODUCT_TABLE::$PROD_NAME]."</a></td>";
+            echo '<td><a href="view_product.php?'.PRODUCT_TABLE::$PROD_ID.'='.$product[PRODUCT_TABLE::$PROD_ID].'">'.
+			'<img src="images/'.$product[PRODUCT_TABLE::$IMAGE].'" height="60" width="100"/></a></td>';
             echo "<td>".$product[PRODUCT_TABLE::$CATEGORY]."</td>";
             echo "<td>".$product[PRODUCT_TABLE::$VEND_ID]."</td>";
             echo "<td>".$product[PRODUCT_TABLE::$DESCRIPTION]."</td>";

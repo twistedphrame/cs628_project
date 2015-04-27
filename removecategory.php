@@ -21,7 +21,7 @@
 			else{
 				header('LOCATION: signin.php');
 			}
-			include("sql_queries.php");
+			include("includes/sql_queries.php");
       include("includes/header.php");
 		?>	
 		
