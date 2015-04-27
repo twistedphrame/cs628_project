@@ -78,7 +78,7 @@ function updateOrderStatus(prodID, transID, username, newStatus, pageToReturnTo)
   var status;
   if (newStatus == 'c') {
     status = 'canceled';
-  } else if (new status == 'p') {
+  } else if (status == 'p') {
     status = 'pending';
   } else {
     status = 'shipped';
