@@ -38,7 +38,7 @@
     }
     
     $subject = 'Thank you for your order!';
-    $message = "Hi ". $user[USER_TABLE::$FIRST_NAME . ' Thank you for your order!';
+    $message = "Hi ". $user[USER_TABLE::$FIRST_NAME] . ' Thank you for your order!';
     $headers = 'From: Online Shopping System' . "\r\n" .
     'Reply-To: ' . "\r\n" .	'X-Mailer: PHP/' . phpversion();
     mail($user[USER_TABLE::$EMAIL], $subject, $message, $headers);

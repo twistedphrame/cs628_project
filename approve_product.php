@@ -17,7 +17,7 @@
     $product = selectSingleProduct($dbc, $_POST[PRODUCT_TABLE::$PROD_ID]);
     $userInfo = selectSingleCustomer($dbc, $product[PRODUCT_TABLE::$VEND_ID]);
     $subject = 'You Product is ready for sale!';
-    $message = "Hi ". $userInfo[USER_TABLE::$FIRST_NAME . ' Your product'.$product[PRODUCT_TABLE::$PROD_NAME].' can now be sold!';
+    $message = "Hi ". $userInfo[USER_TABLE::$FIRST_NAME] . ' Your product'.$product[PRODUCT_TABLE::$PROD_NAME].' can now be sold!';
     $headers = 'From: Online Shopping System' . "\r\n" .
     'Reply-To: ' . "\r\n" .	'X-Mailer: PHP/' . phpversion();
     mail($userInfo[USER_TABLE::$EMAIL], $subject, $message, $headers);
