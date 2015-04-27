@@ -2,8 +2,7 @@
 <?php
     include("includes/sql_queries.php");
     session_start();    
-    if (!isset($_COOKIE[USER_TABLE::$USER_NAME])
-         || $_SERVER['REQUEST_METHOD'] != 'GET'
+    if ($_SERVER['REQUEST_METHOD'] != 'GET'
          || !isset($_GET[PRODUCT_TABLE::$PROD_ID])) {
       header('LOCATION: products.php');
     }
@@ -44,7 +43,10 @@
 														} else {
 																echo '<tr><td>Cost:</td><td>'.$product[PRODUCT_TABLE::$PRICE].'</td></tr>';
 														}
-                            if($_COOKIE[USER_TABLE::$ROLE] == USER_TABLE::$ROLE_ADMIN) {
+														if(!isset($_COOKIE[USER_TABLE::$USER_NAME])){
+																echo '<tr><td colspan=2><b><a href="signin.php">Sign In To Order</a></b></td></tr>';
+														}
+                            elseif($_COOKIE[USER_TABLE::$ROLE] == USER_TABLE::$ROLE_ADMIN) {
                               echo '<tr><td colspan=2><b>CART DISABLED FOR ADMIN</b></td></tr>';
                             }elseif($product[PRODUCT_TABLE::$QUANTITY] > 0) {
                               echo '<tr><td>Quantity:</td><td>';
