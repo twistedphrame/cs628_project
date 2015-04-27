@@ -25,7 +25,7 @@
 			else{
 				header('LOCATION: signin.php');
 			}
-			include("sql_queries.php");
+			include("includes/sql_queries.php");
       include("includes/header.php");
 		?>
 		<?php 
@@ -169,9 +169,10 @@
 					value = <?php if(isset($_POST['features'])) echo $_POST['features'] ?> ></td>
 				</tr>
 				<tr>
-					<td>Product Image:</td>
-					<td><input type="text" name="image"
-					value = <?php if(isset($_POST['image'])) echo $_POST['image'] ?> ></td>
+					<td><form action="upload.php" method="post" enctype="multipart/form-data">
+						<input type="file" name="image" id="image">
+						<input type="submit" value="Upload Image" name="submit"></td>
+					</form>
 				</tr>
 				<tr>
 					<td>Product Constraints:</td>

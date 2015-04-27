@@ -20,6 +20,4 @@
 		
 	
 
-	
-	//this code was based on Swethana Gopisetti's delete_class.php, modified for class by Andrew Spaeth
 	?>
