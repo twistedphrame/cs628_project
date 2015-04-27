@@ -40,6 +40,7 @@
       <br>
       <?php
         include('dbc.php');
+        date_default_timezone_set('America/New_York' );
         $orders = allTransactionsDescendingTime($dbc);
         if(empty($orders)) {
           echo "There are no orders";
