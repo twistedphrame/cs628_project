@@ -72,8 +72,7 @@
 	</div> <!--content -->
 
 	<div id="footer">
-		<p>Copyright@ Swethana Gopisetti, Monmouth University</p> <!-- this page was based on code from Swethana's edit classes page we were given in class-->
-		<p>Modified by Andrew Spaeth for CS628 HW</p>
+
 	</div>
 	</div> <!--container -->
 </body>
