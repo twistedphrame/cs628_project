@@ -47,7 +47,7 @@
   $vendorApproved[] = '<a href="#">Reports</a>';
   $saleReports = array();
   $saleReports[] = '<a href="vendor_sale_reports.php">Sale Reports</a>';
-  $saleReports[] = '<a href="vendor_quantities.php">Remaining Stock</a>';
+  $saleReports[] = '<a href="vendor_products.php">View Products</a>';
   $vendorApproved[] = $saleReports;
   
   $vendorApproved[] = '<a href="shopping_cart.php">Shopping Cart</a>';
