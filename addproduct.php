@@ -14,7 +14,7 @@
 	</div>
 	
 		<div id="content" align='center'>	
-		<h1>Class Registration</h1>		
+	
 		<?php 
 			session_start();
 			if(isset($_COOKIE['username'])){
@@ -94,30 +94,7 @@
 					//4. Sanity check 
 					if($r) echo "Record is inserted into database.";
 					else echo "Something is wrong.";
-				echo $category;
-				echo "</br>";
-				echo $name;
-				echo "</br>";
-				echo $vendorid;
-				echo "</br>";
-				echo $approved;
-				echo "</br>";
-				echo $description;
-				echo "</br>";
-				echo $price;
-				echo "</br>";
-				echo $productnum;
-				echo "</br>";
-				echo $features;
-				echo "</br>";
-				echo $image;
-				echo "</br>";
-				echo $constraints;
-				echo "</br>";
-				echo $discount;
-				echo "</br>";
-				echo $quantity;
-				echo "</br>";
+
 				}
 				
 				else{
@@ -169,6 +146,7 @@
 					value = <?php if(isset($_POST['features'])) echo $_POST['features'] ?> ></td>
 				</tr>
 				<tr>
+					<td>Product Image:</td>
 					<td><form action="upload.php" method="post" enctype="multipart/form-data">
 						<input type="file" name="image" id="image">
 						<input type="submit" value="Upload Image" name="submit"></td>

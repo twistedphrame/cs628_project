@@ -20,7 +20,7 @@
 				header('LOCATION: signin.php');
 			}
 			include("includes/sql_queries.php");
-      include("includes/header.php");
+			include("includes/header.php");
 						
 			function menu($arr,$name,$value){
 				echo '<select name='.name.'>';
@@ -39,6 +39,7 @@
 			
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+				if($_POST['button']=="Update"){
 				$fname = $_POST['fname'];
 				$lname = $_POST['lname'];
 				$address = $_POST['address'];
@@ -59,7 +60,10 @@
 						echo"There was an error updating the information";
 					}
 				
-				
+				}
+				if($_POST['button']=="Change Password"){
+					header('LOCATION: changepass.php');
+				}
 			}
 			else {
 				$q = "SELECT * FROM users WHERE username = '$username'";
@@ -124,7 +128,12 @@
 				
 			</table> </center>
 			<div style="padding: 0px 450px" >
-				<input type="submit" name="button" value="Update" >
+				<table>
+				<tr>
+					<td><input type="submit" name="button" value="Update"></td>
+					<td><input type="submit" name="button" value="Change Password"></td>
+				</tr>
+				</table>
 			</div>
 		</form>
 		</div>
