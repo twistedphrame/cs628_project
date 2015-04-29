@@ -34,30 +34,32 @@
 				$category = $_POST['category']; //form data username,
 				$name = $_POST['name'];
 				$vendorid = $username;
-				$approved = 0;
+				$approved = "p";
 				$description = $_POST['description'];
 				$price = $_POST['price'];
 				$productnum = $_POST['productnum'];
 				$features = $_POST['features'];
-				$image = $_POST['image'];
+        $image ='';
+        if(isset($_FILES["image"]) && !empty($_FILES["image"]["tmp_name"])) {
+          $image = basename($_FILES["image"]["name"]);
+        }
 				$constraints = $_POST['constraints'];
 				$discount = $_POST['discount'];
 				$quantity = $_POST['quantity'];
 				
 
-
 				$error = array(); //define an array
 			
 				if(empty($category)) $error[]= "You forgot to enter a category.";
-				if(empty($name)) $error[]= "You forgot to enter a product name.";
-				if(empty($description)) $error[]= "You forgot to enter a product description.";
-				if(empty($price)) $error[]= "You forgot to enter a product price.";
-				if(empty($productnum)) $error[]= "You forgot to enter a product number.";
-				if(empty($features)) $error[]= "You forgot to enter product features.";
+				if(empty($name) || is_numeric($name) == true || $name != 0) $error[]= "You forgot to enter a product name.";
+				if(empty($description) || is_numeric($description) == true || $description != 0) $error[]= "You forgot to enter a product description.";
+				if(empty($price) || $price == "0" || $price < 0 || is_numeric($price)== false ) $error[]= "You forgot to enter a product price.";
+				if(empty($productnum) || $productnum <=1 ) $error[]= "You forgot to enter a product number.";
+				if(empty($features) || is_numeric($features) == true || $features != 0) $error[]= "You forgot to enter product features.";
 				if(empty($image)) $error[]= "You forgot to enter a product image.";
-				if(empty($constraints)) $error[]= "You forgot to enter product constraints.";
-				if(empty($discount)) $error[]= "You forgot to enter a product discount.";
-				if(empty($quantity)) $error[]= "You forgot to enter a product quantity.";
+				if(empty($constraints)|| is_numeric($constraints) == true || $constraints != 0) $error[]= "You forgot to enter product constraints.";
+				if(empty($discount) || $discount <= 0) $error[]= "You forgot to enter a product discount.";
+				if(empty($quantity) || $quantity == 0 || $quantity <=1) $error[]= "You forgot to enter a product quantity.";
 				
 			
 				if(empty($error)){
@@ -92,8 +94,27 @@
 					//3. execute the query
 					$r = mysqli_query($dbc, $q);
 					//4. Sanity check 
-					if($r) echo "Record is inserted into database.";
-					else echo "Something is wrong.";
+					if($r) {
+            echo "Record is inserted into database.";
+            
+            $target_dir = "images/";
+            $target_file = $target_dir . basename($_FILES["image"]["name"]);
+            $uploadOk = 1;
+            $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+
+            // Check if image file is a actual image or fake image
+            $check = getimagesize($_FILES["image"]["tmp_name"]);
+            if($check !== false) {
+              if(move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
+                echo " File uploaded";
+              }
+            } else {
+                echo "File is not an image.";
+            }
+          }
+					else {
+            echo "Something is wrong.";
+          }
 
 				}
 				
@@ -108,15 +129,19 @@
 			
 		?>
 		</div>
-		<form action="" method="POST">
+		<form action="addproduct.php" method="post" enctype="multipart/form-data">
 			<table>
 				<tr>
 					<td>Category:</td>
 					<td>
 					
 						<?php 
-							include("dbc.php");
-              categoryDropDown($dbc, "category", $_POST['category']);
+							require_once("dbc.php");
+              if(isset($_POST['category'])) {
+                categoryDropDown($dbc, "category", $_POST['category']);
+              } else {
+              categoryDropDown($dbc, "category", NULL);
+              }
 						?>
 					</td> 
 				</tr>
@@ -147,10 +172,8 @@
 				</tr>
 				<tr>
 					<td>Product Image:</td>
-					<td><form action="upload.php" method="post" enctype="multipart/form-data">
+					<td>
 						<input type="file" name="image" id="image">
-						<input type="submit" value="Upload Image" name="submit"></td>
-					</form>
 				</tr>
 				<tr>
 					<td>Product Constraints:</td>

@@ -144,8 +144,7 @@
 				<tr>
 					<td>Product Image:</td>
 					<td><form action="upload.php" method="post" enctype="multipart/form-data">
-						<input type="file" name="image" id="image">
-						<input type="submit" value="Upload Image" name="submit"></td>
+					<input type="file" name="image" id="image">
 					</form>
 				</tr>
 				<tr>
