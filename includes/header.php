@@ -37,17 +37,11 @@
 
   $vendorApproved = array();
   $vendorApproved[] = '<a href="products.php">View All Products</a>';
-  $vendorApproved[] = '<a href="#">My Products</a>';
-  $myProducts = array();
-  $myProducts[] = '<a href="addproduct.php">Add Product</a>';
-  $myProducts[] = '<a href="removeproduct.php">Remove Product</a>';
-  $myProducts[] = '<a href="editproduct.php">Edit Product</a>';
-  $vendorApproved[] = $myProducts;
-  
+  $vendorApproved[] = '<a href="addproduct.php">Add Product</a>';  
   $vendorApproved[] = '<a href="#">Reports</a>';
   $saleReports = array();
   $saleReports[] = '<a href="vendor_sale_reports.php">Sale Reports</a>';
-  $saleReports[] = '<a href="vendor_products.php">View Products</a>';
+  $saleReports[] = '<a href="vendor_quantities.php">View Products</a>';
   $vendorApproved[] = $saleReports;
   
   $vendorApproved[] = '<a href="shopping_cart.php">Shopping Cart</a>';

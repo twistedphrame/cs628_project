@@ -115,23 +115,31 @@
           }else {
             $approved = false;
             $pending = false;
+						$removed = false;
             echo "<table align=center>";
             foreach($products as $product) {
-              if($product[PRODUCT_TABLE::$APPROVED]) {
+              if($product[PRODUCT_TABLE::$APPROVED] == "a") {
                 if(!$approved) {
                   $approved = true;
                   echo "<tr><td align='center' colspan=10><br><h4>Approved Products</h4></td></tr>";
                   tableHeader();
                 }
                 approvedProductRow($product, false);
-              } else {
+              } elseif($product[PRODUCT_TABLE::$APPROVED] == "p") {
                 if(!$pending) {
                   $pending = true;
                   echo "<tr><td align='center' colspan=10><br><h4>Pending Products</h4></td></tr>";
                   tableHeader();
                 }
                 pendingProductRow($product, false, 'vendor_report.php?'.USER_TABLE::$USER_NAME.'='.$userName);
-              }
+              }  elseif($product[PRODUCT_TABLE::$APPROVED] == "r") {
+								if(!$removed) {
+                  $removed = true;
+                  echo "<tr><td align='center' colspan=10><br><h4>Removed Products</h4></td></tr>";
+                  tableHeader();
+                }
+								removedProductRow($product, false, 'vendor_report.php?'.USER_TABLE::$USER_NAME.'='.$userName);
+							}
             }
             echo "</table>";
           }

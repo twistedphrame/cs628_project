@@ -47,6 +47,7 @@
     private $price;
     private $approved;
     private $quantity;
+    private $discount;
     
     public function Product() {
       $this->productID = NULL;
@@ -61,6 +62,16 @@
       $this->price = NULL;
       $this->approved = NULL;
       $this->quantity = NULL;
+      $this->discount= NULL;
+    }
+    
+        /**
+     *Set the discount of the product
+     *returns this product for method chaining.
+     */
+    public function setDiscount($discount) {
+      $this->discount = $discount;
+      return $this;
     }
     
     /**
@@ -222,7 +233,7 @@
         $array[] = PRODUCT_TABLE::$VEND_ID . "='{$this->vendorID}'";
       }
       
-      if($this->serialNum !== NULL) {
+      if($this->prod_num !== NULL) {
         $array[] = PRODUCT_TABLE::$PROD_NUMBER . "='{$this->prod_num}'";
       }
       
@@ -238,7 +249,7 @@
         $array[] = PRODUCT_TABLE::$DESCRIPTION . "='{$this->description}'";
       }
       
-      if($this->images !== NULL) {
+      if($this->image !== NULL) {
         $array[] = PRODUCT_TABLE::$IMAGE . "='{$this->image}'";
       }
       
@@ -261,6 +272,12 @@
             if($this->approved !== NULL) {
         $array[] = PRODUCT_TABLE::$APPROVED . "='{$this->approved}'";
       }
+      
+      if($this->discount !== NULL) {
+        $array[] = PRODUCT_TABLE::$DISCOUNT . "='{$this->discount}'";
+
+      }
+
       
       if(empty($array)) {
         return false;

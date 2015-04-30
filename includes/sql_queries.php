@@ -268,7 +268,7 @@
     
     function selectSingleApprovedProduct($dbc, $productID) {
       $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$PROD_ID.' = \''.$productID.'\' '
-                                   .' AND '.PRODUCT_TABLE::$APPROVED.' = 1;';    
+                                   .' AND '.PRODUCT_TABLE::$APPROVED.' = \'a\';';    
       $r = mysqli_query($dbc, $q);
       if($r) {
         return mysqli_fetch_assoc($r);
@@ -276,23 +276,6 @@
       return array();
     }
 
-            /**
-     * Returns an array of arrays.
-     * Each internal array represents a single product that has not been aapproved yet
-     * The format of each of these arrays is the the same as the array returned from selectSingleProduct
-     */
-    function selectAllNonApprovedProducts($dbc, $category) {
-      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$APPROVED.'=\'0\';';
-      $r = mysqli_query($dbc, $q);
-      if($r) {
-        $array = array();
-        while ($row = mysqli_fetch_assoc($r)) {
-            $array[] = $row;
-        }
-        return $array;
-      }
-      return array();
-    }
         /**
      * Returns an array of arrays.
      * Each internal array represents a single product from the specified category that has been approved.
@@ -300,40 +283,7 @@
      */
     function selectApprovedProductsByCategory($dbc, $category) {
       $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\''
-                                             .' AND '.PRODUCT_TABLE::$APPROVED.'=\'1\';';
-      $r = mysqli_query($dbc, $q);
-      if($r) {
-        $array = array();
-        while ($row = mysqli_fetch_assoc($r)) {
-            $array[] = $row;
-        }
-        return $array;
-      }
-      return array();
-    }
-	
-	
-	
-	  function selectApprovedProductsByCategoryAndPriceASC($dbc, $category) {
-      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\''
-                                             .' AND '.PRODUCT_TABLE::$APPROVED.'=\'1\' 
-											 ORDER BY '.PRODUCT_TABLE::$PRICE.' ASC'; 
-      $r = mysqli_query($dbc, $q);
-      if($r) {
-        $array = array();
-        while ($row = mysqli_fetch_assoc($r)) {
-            $array[] = $row;
-        }
-        return $array;
-      }
-      return array();
-    }
-	
-	
-	 function selectApprovedProductsByCategoryAndPriceDESC($dbc, $category) {
-      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\''
-                                             .' AND '.PRODUCT_TABLE::$APPROVED.'=\'1\' 
-											 ORDER BY '.PRODUCT_TABLE::$PRICE.' DESC'; 
+                                             .' AND '.PRODUCT_TABLE::$APPROVED.'=\'a\';';
       $r = mysqli_query($dbc, $q);
       if($r) {
         $array = array();
@@ -410,7 +360,7 @@
      * The format of each of these arrays is the same as the array returned from selectSingleProduct
      */
     function selectPendingProducts($dbc) {
-      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$APPROVED.'=\'0\''
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$APPROVED.'=\'p\''
                                    .' ORDER BY '.PRODUCT_TABLE::$PROD_NAME.' DESC;';
       $r = mysqli_query($dbc, $q);
       if($r) {
@@ -468,7 +418,9 @@
      *Standard row output for an approved row in the reports
      */
     function approvedProductRow($product, $includeVendorID) {
-      approvedProductRowTROptional($product, $includeVendorID, true);
+      echo '<tr>';
+      productRow($product, $includeVendorID);
+      echo '</tr>';
     }
     
     
@@ -478,10 +430,7 @@
      *$includeTRs = true or false, depending on if the opening and closing <tr>
      *elements should be echo'd by this method
      */
-    function approvedProductRowTROptional($product, $includeVendorID, $includeTRs) {
-      if($includeTRs){
-        echo '<tr>';
-      }
+    function productRow($product, $includeVendorID) {
       echo '<td>'.$product[PRODUCT_TABLE::$PROD_NAME].'-'.$product[PRODUCT_TABLE::$PROD_NUMBER].'</td>';
       if($includeVendorID) {
         echo '<td>'.$product[PRODUCT_TABLE::$VEND_ID].'</td>';
@@ -494,9 +443,6 @@
       echo '<td>$'.number_format($product[PRODUCT_TABLE::$PRICE],2).'</td>';
       echo '<td>'.$product[PRODUCT_TABLE::$DISCOUNT].'%</td>';
       echo '<td>'.$product[PRODUCT_TABLE::$QUANTITY].'</td>';
-      if($includeTRs){
-        echo '</tr>';
-      }
     }
     
     
@@ -507,9 +453,53 @@
      */
     function pendingProductRow($product, $includeVendorID, $returnPage) {
       echo '<tr>';
-      approvedProductRowTROptional($product, $includeVendorID, false);
+      productRow($product, $includeVendorID);
       echo '<td><input type="button" value="APPROVE" onclick="approveProduct(\''
                             .$product[PRODUCT_TABLE::$PROD_ID].'\',\''.$returnPage.'\')" /></td>';
       echo '</tr>';
     }
+    
+        /**
+     * Makes a row representing a pending product with an option
+     * to approve the product.
+     * MAKE SURE ajaxFuncs is included!
+     */
+    function removedProductRow($product, $includeVendorID, $returnPage) {
+      echo '<tr>';
+      productRow($product, $includeVendorID);
+      echo '</tr>';
+    }
+    
+    
+    
+	  function selectApprovedProductsByCategoryAndPriceASC($dbc, $category) {
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\''
+                                             .' AND '.PRODUCT_TABLE::$APPROVED.'=\'1\' 
+											 ORDER BY '.PRODUCT_TABLE::$PRICE.' ASC'; 
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        $array = array();
+        while ($row = mysqli_fetch_assoc($r)) {
+            $array[] = $row;
+        }
+        return $array;
+      }
+      return array();
+    }
+	
+	
+	 function selectApprovedProductsByCategoryAndPriceDESC($dbc, $category) {
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\''
+                                             .' AND '.PRODUCT_TABLE::$APPROVED.'=\'1\' 
+											 ORDER BY '.PRODUCT_TABLE::$PRICE.' DESC'; 
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        $array = array();
+        while ($row = mysqli_fetch_assoc($r)) {
+            $array[] = $row;
+        }
+        return $array;
+      }
+     return array();
+  }
 ?>

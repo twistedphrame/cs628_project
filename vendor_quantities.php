@@ -29,21 +29,25 @@
     }
     include("includes/header.php");
     
-    function productRow($product) {
+    function singleRow($product) {
       echo "<tr>";
       echo "<td>".$product[PRODUCT_TABLE::$PROD_NAME].'-'.$product[PRODUCT_TABLE::$PROD_NUMBER]."</td>";
       echo "<td>".$product[PRODUCT_TABLE::$QUANTITY]."</td>";
       echo "<td>".$product[PRODUCT_TABLE::$PRICE]."</td>";
       echo "<td>".$product[PRODUCT_TABLE::$DISCOUNT]."%</td>";
       $approved = '';
-      if($product[PRODUCT_TABLE::$APPROVED] == 0) {
-        $approved = 'False';
+      if($product[PRODUCT_TABLE::$APPROVED] == 'p') {
+        $approved = 'Pending';
+      } elseif($product[PRODUCT_TABLE::$APPROVED] == 'a') {
+        $approved = 'Approved';
       } else {
-        $approved = 'True';
-      }      
+				$approved = 'Removed';
+			}
       echo "<td>".$approved.'</td>';
-      echo '<td><input type="button" onclick="updateProduct(\''.$product[PRODUCT_TABLE::$PROD_ID].'\')" value="UPDATE" /></td>'; 
-	  echo '<td><input type="button" onclick="removeProduct(\''.$product[PRODUCT_TABLE::$PROD_ID].'\')" value="REMOVE" /></td>'; 
+			if($product[PRODUCT_TABLE::$APPROVED] != 'r') {
+				echo '<td><input type="button" onclick="updateProduct(\''.$product[PRODUCT_TABLE::$PROD_ID].'\')" value="UPDATE" /></td>'; 
+				echo '<td><input type="button" onclick="removeProduct(\''.$product[PRODUCT_TABLE::$PROD_ID].'\')" value="REMOVE" /></td>';
+			}
       echo "</tr>";
     }
   ?>
@@ -69,9 +73,9 @@
           echo "No products to display.";
         } else {
           echo "<table>";
-          echo "<tr><td>Product</td><td>Quantity</td><td>Unit Price</td><td>Discount</td><td>Approved</td></tr>";
+          echo "<tr><td>Product</td><td>Quantity</td><td>Unit Price</td><td>Discount</td><td>Approval</td></tr>";
           foreach($products as $product) {              
-            productRow($product);
+            singleRow($product);
           }
           echo "</table>";
         }

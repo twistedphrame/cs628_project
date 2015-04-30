@@ -38,39 +38,61 @@
 				
 				include("dbc.php");
 
-				$productid = $_GET[PRODUCT_TABLE::$PROD_ID];//grabs the class id and sets in a variable.  The class id was pushed from the previous page
-	
-					
-	
-
-			
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+				$productid = $_POST['productid'];
 				$category = $_POST['category'];
 				$productname = $_POST['productname'];
 				$description = $_POST['description'];
 				$price = $_POST['price'];
 				$productnumber = $_POST['productnumber'];
 				$features = $_POST['features'];
-				$image = $_POST['image'];
+				$image ='';
+        if(isset($_FILES["image"]) && !empty($_FILES["image"]["tmp_name"])) {
+          $image = basename($_FILES["image"]["name"]);
+        }
 				$constraints = $_POST['constraints'];
 				$discount = $_POST['discount'];
 				$quantity = $_POST['quantity'];
-				$q = "UPDATE users SET category='$category', productname='$productname', description='$description', price='$price', productnumber='$productnumber', features='$features', image='$image', constraints='$constraints',
-					discount='$discount',quantity='$quantity', WHERE username = '$username'";
-					
-				$r = mysqli_query($dbc, $q);
-					
-					if($r){
-						echo "The information has been updated.";
+				include("product.php");
+				$prod = new Product();
+				$r = $prod->setProductID($productid)
+				     ->setCategory($category)
+				     ->setName($productname)
+						 ->setDescription($description)
+						 ->setPrice($price)
+						 ->setSerialNum($productnumber)
+						 ->setFeatures($features)
+						 ->setImages($image)
+						 ->setConstraints($constraints)
+						 ->setDiscount($discount)
+						 ->setQuantity($quantity)
+						 ->update($dbc);
+				if($r){
+					echo "The information has been updated.";
+					$target_dir = "images/";
+					$target_file = $target_dir . basename($_FILES["image"]["name"]);
+					$uploadOk = 1;
+					$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+
+					// Check if image file is a actual image or fake image
+					$check = getimagesize($_FILES["image"]["tmp_name"]);
+					if($check !== false) {
+						if(move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
+							echo " File uploaded";
+						}
+					} else {
+							echo "File is not an image.";
 					}
-					else{
-						echo"There was an error updating the information";
-					}
-				
-				
+					
+				}
+				else{
+					echo"There was an error updating the information";
+				}
 			}
-			else {
+			elseif ($_SERVER['REQUEST_METHOD'] == 'GET'){
+			  $productid = $_GET[PRODUCT_TABLE::$PROD_ID];//grabs the class id and sets in a variable.  The class id was pushed from the previous page
+
 				$q = "SELECT * FROM product WHERE productid = '$productid'";
 					
 				$r = mysqli_query($dbc, $q);
@@ -88,36 +110,25 @@
 				$discount = $row['discount'];
 				$quantity = $row['quantity'];
 						
-				}
-			
+			} else {
+				header('LOCATION: products.php');
+			}
 				
 		?>
 		<div>
-		<form action="" method="POST">
+		<form action="edit_product.php" method="post" enctype="multipart/form-data">
 						<table>
 				<tr>
 					<td>Category:</td>
 					<td>
 					
 						<?php 
-							$catarray = array();
-							include("dbc.php");
-							$q = "SELECT * FROM categories"; //creates a query that pulls all the information for classes that match the subject that was selected from the drop down menu
-							$r = mysqli_query($dbc, $q);
-							while ($row = mysqli_fetch_array($r)){
-								array_push($catarray,"$row[catname]");
-							}
-							echo '<select name ="category">'; //echo'd so the web browser can pick it up
-								foreach($catarray as $cat){
-									echo '<option value = "'.$cat.'"';
-									if (isset($_POST['category'])) {
-										if ($cat == $_POST['category'])  echo 'selected ="selected"';
-									}
-									echo '>'.$cat.'</option>';
-								}
-							echo '</select>';
-					
-							
+							require_once("dbc.php");
+              if(isset($_POST['category'])) {
+                categoryDropDown($dbc, "category", $_POST['category']);
+              } else {
+              categoryDropDown($dbc, "category", NULL);
+              }
 						?>
 					</td> 
 				</tr>
@@ -143,10 +154,8 @@
 				</tr>
 				<tr>
 					<td>Product Image:</td>
-					<td><form action="upload.php" method="post" enctype="multipart/form-data">
-					<input type="file" name="image" id="image">
-					</form>
-				</tr>
+					<td><input type="file" name="image" id="image"></td>
+				  </tr>
 				<tr>
 					<td>Product Constraints:</td>
 					<td><input type="text" name="constraints" value="<?php echo $constraints ?>"></td>	
@@ -159,7 +168,9 @@
 					<td>Product Quantity:</td>
 					<td><input type="text" name="quantity" value="<?php echo $quantity ?>"></td>	
 				</tr>
-				
+				<tr>
+					<td><input type="hidden" name="productid" value="<?php echo $productid ?>"></td>
+				</tr>
 			</table>
 			<div style="padding: 0px 450px" >
 				<input type="submit" name="button" value="Update" >
