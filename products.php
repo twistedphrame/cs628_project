@@ -20,7 +20,11 @@
 				window.location.replace('products.php?category='+categoryText, '_SELF');
 			}
     </script>
+	<?php 
+	$sort = array("Sort by:", "Lowest to Highest Price", "Highest to Lowest Price");
 
+	createDropDown($sortmenu, $sort, $sorttype) 
+	?>
 		<form action="" method="POST"> 
 			<center>
         <table style="padding: 10px 0px">
@@ -43,6 +47,7 @@
       </center>
 		</form>
 
+
 		<center><table>  <!-- creates the table headers for the class records that will be displayed-->
 		<tr>
 			<th> Product </th>
@@ -54,8 +59,34 @@
 
 		<?php
       if($category != NULL) {
+		  echo $sorttype;
         include("dbc.php");
-        foreach(selectApprovedProductsByCategory($dbc, $category) as $product) {
+		if($sorttype = "Sort by:"){
+			foreach(selectApprovedProductsByCategory($dbc, $category) as $product)
+			echo "<tr>";
+            echo '<td><a href="view_product.php?'.PRODUCT_TABLE::$PROD_ID.'='.$product[PRODUCT_TABLE::$PROD_ID].'">'.
+			'<img src="images/'.$product[PRODUCT_TABLE::$IMAGE].'" height="60" width="100"/></a></td>';
+            echo "<td>".$product[PRODUCT_TABLE::$CATEGORY]."</td>";
+            echo "<td>".$product[PRODUCT_TABLE::$VEND_ID]."</td>";
+            echo "<td>".$product[PRODUCT_TABLE::$DESCRIPTION]."</td>";
+            echo "<td>".$product[PRODUCT_TABLE::$PRICE]."</td>";
+            echo "</tr>";
+        }
+		
+		if($sorttype = "Lowest to Highest Price"){
+			foreach(selectApprovedProductsByCategoryAndPriceASC($dbc, $category) as $product)
+			          echo "<tr>";
+            echo '<td><a href="view_product.php?'.PRODUCT_TABLE::$PROD_ID.'='.$product[PRODUCT_TABLE::$PROD_ID].'">'.
+			'<img src="images/'.$product[PRODUCT_TABLE::$IMAGE].'" height="60" width="100"/></a></td>';
+            echo "<td>".$product[PRODUCT_TABLE::$CATEGORY]."</td>";
+            echo "<td>".$product[PRODUCT_TABLE::$VEND_ID]."</td>";
+            echo "<td>".$product[PRODUCT_TABLE::$DESCRIPTION]."</td>";
+            echo "<td>".$product[PRODUCT_TABLE::$PRICE]."</td>";
+            echo "</tr>";
+        }
+			
+		if($sorttype = "Highest to Lowest Price"){
+			foreach(selectApprovedProductsByCategoryAndPriceDESC($dbc, $category) as $product)
           echo "<tr>";
             echo '<td><a href="view_product.php?'.PRODUCT_TABLE::$PROD_ID.'='.$product[PRODUCT_TABLE::$PROD_ID].'">'.
 			'<img src="images/'.$product[PRODUCT_TABLE::$IMAGE].'" height="60" width="100"/></a></td>';
@@ -65,7 +96,10 @@
             echo "<td>".$product[PRODUCT_TABLE::$PRICE]."</td>";
             echo "</tr>";
         }
-			}
+			
+		}
+	
+	  
 		?>					
 		</table><center> 
 	

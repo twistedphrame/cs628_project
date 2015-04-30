@@ -311,6 +311,39 @@
       }
       return array();
     }
+	
+	
+	
+	  function selectApprovedProductsByCategoryAndPriceASC($dbc, $category) {
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\''
+                                             .' AND '.PRODUCT_TABLE::$APPROVED.'=\'1\' 
+											 ORDER BY '.PRODUCT_TABLE::$PRICE.' ASC'; 
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        $array = array();
+        while ($row = mysqli_fetch_assoc($r)) {
+            $array[] = $row;
+        }
+        return $array;
+      }
+      return array();
+    }
+	
+	
+	 function selectApprovedProductsByCategoryAndPriceDESC($dbc, $category) {
+      $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\''
+                                             .' AND '.PRODUCT_TABLE::$APPROVED.'=\'1\' 
+											 ORDER BY '.PRODUCT_TABLE::$PRICE.' DESC'; 
+      $r = mysqli_query($dbc, $q);
+      if($r) {
+        $array = array();
+        while ($row = mysqli_fetch_assoc($r)) {
+            $array[] = $row;
+        }
+        return $array;
+      }
+      return array();
+    }
     
         /**
      * Returns an array of arrays.
