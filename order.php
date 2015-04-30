@@ -26,7 +26,7 @@
                 ->setState($user[USER_TABLE::$STATE])
                 ->setZipCode($user[USER_TABLE::$ZIP_CODE])
                 ->setTransactionID($trans_id);
-    require_once("include/sql_queries.php");
+    require_once("includes/sql_queries.php");
     foreach($products as $product) {
       setcookie('prod_'.$product[PRODUCT_TABLE::$PROD_ID], '', time()-1000);
       $transaction->setQuantity($product['selected_quantity'])
