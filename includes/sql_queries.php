@@ -474,8 +474,8 @@
     
 	  function selectApprovedProductsByCategoryAndPriceASC($dbc, $category) {
       $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\''
-                                             .' AND '.PRODUCT_TABLE::$APPROVED.'=\'1\' 
-											 ORDER BY '.PRODUCT_TABLE::$PRICE.' ASC'; 
+                                     .' AND '.PRODUCT_TABLE::$APPROVED.'=\'a\''
+                                     .' ORDER BY '.PRODUCT_TABLE::$PRICE.' ASC'; 
       $r = mysqli_query($dbc, $q);
       if($r) {
         $array = array();
@@ -490,8 +490,8 @@
 	
 	 function selectApprovedProductsByCategoryAndPriceDESC($dbc, $category) {
       $q = selectAllProductsQuery().' WHERE '.PRODUCT_TABLE::$CATEGORY.'=\''.$category.'\''
-                                             .' AND '.PRODUCT_TABLE::$APPROVED.'=\'1\' 
-											 ORDER BY '.PRODUCT_TABLE::$PRICE.' DESC'; 
+                                             .' AND '.PRODUCT_TABLE::$APPROVED.'=\'a\''
+                                             .' ORDER BY '.PRODUCT_TABLE::$PRICE.' DESC'; 
       $r = mysqli_query($dbc, $q);
       if($r) {
         $array = array();
