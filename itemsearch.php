@@ -13,38 +13,15 @@
 	
 		<?php 
 			session_start();
-			if(isset($_COOKIE['username'])){
-				$username = $_COOKIE['username'];
-				$fname = $_COOKIE['fname'];
-				$role = $_COOKIE['role'];
-			}
-			else{
-				header('LOCATION: signin.php');
-			}
 			include("includes/sql_queries.php");
 			include("includes/header.php");
-			
-				
-				include("dbc.php");
-
-	
-					
-	
-
-			
-			
-			if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-				$productname = $_POST['productname'];
-
-			}
-				
 		?>
 		<div>
 		<form action="" method="POST">
 				<table>
 				<tr>
 					<td>Product Name:</td>
-					<td><input type="text" name="productname"></td>	
+					<td><input type="text" name="productname" value="<?php if(isset($_POST['productname'])) echo $_POST['productname']; ?>"></td>	
 				</tr>
 			</table>
 			<div style="padding: 0px 450px" >
@@ -67,13 +44,16 @@
 			<th> Quantity </th>
 		</tr>
 
-		<?php 
-				$q = "SELECT * from product WHERE productname = '$productname'";
-
+		<?php
+					if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+				$productname = $_POST['productname'];
+				$q = 'SELECT * from '.PRODUCT_TABLE::$NAME.' WHERE '.PRODUCT_TABLE::$PROD_NAME.' LIKE \'%'.$productname.'%\'';
+				include("dbc.php");
 				$r = mysqli_query($dbc, $q);
-					
-				while ($row = mysqli_fetch_array($r)){  //a loop that keeps pulling records with the same subject that was selected until there are no more records
-				echo "<tr>";
+				if($r) {
+				  //a loop that keeps pulling records with the same subject that was selected until there are no more records	
+				while ($row = mysqli_fetch_array($r)){
+					echo "<tr>";
 					echo "<td>".$row['category']."</td>";
 					echo "<td>".$row['productname']."</td>";
 					echo "<td>".$row['vendorid']."</td>";
@@ -85,7 +65,11 @@
 					echo "<td>".$row['constraints']."</td>";
 					echo "<td>".$row['quantity']."</td>";
 					
-				echo "</tr>";
+					echo "</tr>";
+				}
+				} else {
+					echo "<tr><td colspan=10>No Product found for: '$productname'</td></tr>";
+				}
 			}
 		?>					
 		</table><center> 

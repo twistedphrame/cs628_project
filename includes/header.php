@@ -22,21 +22,26 @@
     }
   }
 
-  
+  	$prods[] = array();
+	$prods[] = '<a href="products.php">View Products</a>';
+	$prods[] = '<a href="itemsearch.php">Search Products</a>';
   
   $no_user = array();
-  $no_user[] = '<a href="products.php">View Products</a>';
+	$no_user[] = '<a href="#">Products</a>';
+	$no_user[] = $prods;
   $no_user[] = '<a href="signin.php">Sign In</a>';
   
   $customer = array();
-  $customer[] = '<a href="products.php">View Products</a>';
+	$customer[] = '<a href="#">Products</a>';
+	$customer[] = $prods;
   $customer[] = '<a href="shopping_cart.php">Shopping Cart</a>';
   $customer[] = '<a href="recent_orders.php">My Orders</a>';
   $customer[] = '<a href="edit_profile.php">Edit Profile</a>';
   $customer[] = '<a href="signout.php">Sign Out</a>';
 
   $vendorApproved = array();
-  $vendorApproved[] = '<a href="products.php">View All Products</a>';
+  $vendorApproved[] = '<a href="#">Products</a>';
+	$vendorApproved[] = $prods;
   $vendorApproved[] = '<a href="addproduct.php">Add Product</a>';  
   $vendorApproved[] = '<a href="#">Reports</a>';
   $saleReports = array();
@@ -51,8 +56,8 @@
 
   
   $admin = array();
-  $admin[] = '<a href="products.php">View Products</a>';
-  
+  $admin[] = '<a href="#">Products</a>';
+	$admin[] = $prods;
   $admin[] = '<a href="#">Categories</a>';
   $categories = array();
   $categories[] = '<a href="addcategory.php">Add Category</a>';
