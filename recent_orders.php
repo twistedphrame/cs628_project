@@ -20,7 +20,7 @@
                                                                                   .$order[TRANSACTION_TABLE::$TRANS_ID].'\',\''
                                                                                   .$order[TRANSACTION_TABLE::$USER_NAME].'\',\''
                                                                                   .TRANSACTION_TABLE::$ORDER_CANCELLED.'\','
-                                                                                  .'\'recentOrders.php\')" /></td>';
+                                                                                  .'\'recent_orders.php\')" /></td>';
       }
       echo "</tr>";
       if($order[TRANSACTION_TABLE::$STATUS] == TRANSACTION_TABLE::$ORDER_CANCELLED) {
