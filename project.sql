@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 03, 2015 at 02:55 PM
+-- Generation Time: May 03, 2015 at 03:18 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -67,19 +67,19 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`productid`, `category`, `productname`, `vendorid`, `description`, `price`, `productnumber`, `features`, `image`, `constraints`, `discount`, `approved`, `quantity`) VALUES
-(2, 'Food', 'food', 'vendor', 'food', 10, 10, 'food', 'food.jpg', 'food', 10, '1', 189),
-(3, 'Food2', 'Fooodsss', 'vendor', 'food', 10, 10, 'food', 'food.jpg', 'food', 10, '1', 207),
-(4, 'Food', 'food9', 'vendor', 'food9', 9, 999, 'food9', 'DSCN0027.JPG', 'food', 9, '0', 9),
-(5, 'Food', 'food3', 'vendor', 'food3', 3, 3, '3', 'apples.gif', '3', 3, '0', 3),
-(6, 'Food', 'test', 'vendor', 'test', 100, 100, '100', 'apples.gif', '100', 100, '0', 100),
-(7, 'Food', 'apple', 'vendor', 'apple', 2, 2, '2', 'apples.gif', '2', 2, '0', 2),
-(8, 'Food', 'apple6', 'vendor', 'apple', 2, 2, '2', 'apples.gif', '2', 2, '0', 2),
-(9, 'Food', 'app', 'vendor', 'app', 9, 9, '9', 'apples.gif', '9', 9, '0', 9),
-(10, 'Food', 'vendor', 'vendor', 'vendor', 9, 9, '9', 'apples.gif', '9', 9, '0', 9),
-(11, 'Food', 'vendor3', 'vendor', 'vendor3', 9, 9, '9', 'apples.gif', '9', 9, '1', 9),
-(12, 'Food', 'vendor9', 'vendor', 'vendor9', 9, 9, '9', 'apples.gif', '9', 9, '1', 9),
-(13, 'Food', 'vend', 'vendor', 'vend', 7, 7, '7', 'apples.gif', '7', 7, '0', 7),
-(14, 'Food', 'pear', 'vendor', 'pear', 10, 10, '10', 'food.jpg', '10', 10, '0', 10),
+(2, 'Food', 'food', 'vendor', 'food', 10, 10, 'food', 'food.jpg', 'food', 10, 'a', 189),
+(3, 'Food2', 'Fooodsss', 'vendor', 'food', 10, 10, 'food', 'food.jpg', 'food', 10, 'a', 207),
+(4, 'Food', 'food9', 'vendor', 'food9', 9, 999, 'food9', 'DSCN0027.JPG', 'food', 9, 'p', 9),
+(5, 'Food', 'food3', 'vendor', 'food3', 3, 3, '3', 'apples.gif', '3', 3, 'p', 3),
+(6, 'Food', 'test', 'vendor', 'test', 100, 100, '100', 'apples.gif', '100', 100, 'p', 100),
+(7, 'Food', 'apple', 'vendor', 'apple', 2, 2, '2', 'apples.gif', '2', 2, 'p', 2),
+(8, 'Food', 'apple6', 'vendor', 'apple', 2, 2, '2', 'apples.gif', '2', 2, 'p', 2),
+(9, 'Food', 'app', 'vendor', 'app', 9, 9, '9', 'apples.gif', '9', 9, 'p', 9),
+(10, 'Food', 'vendor', 'vendor', 'vendor', 9, 9, '9', 'apples.gif', '9', 9, 'p', 9),
+(11, 'Food', 'vendor3', 'vendor', 'vendor3', 9, 9, '9', 'apples.gif', '9', 9, 'a', 9),
+(12, 'Food', 'vendor9', 'vendor', 'vendor9', 9, 9, '9', 'apples.gif', '9', 9, 'a', 9),
+(13, 'Food', 'vend', 'vendor', 'vend', 7, 7, '7', 'apples.gif', '7', 7, 'p', 7),
+(14, 'Food', 'pear', 'vendor', 'pear', 10, 10, '10', 'food.jpg', '10', 10, 'p', 10),
 (15, 'Food', 'apple', 'vendor', 'apple', 9, 9, 'apple', 'apples.gif', 'apple', 9, 'r', 9);
 
 -- --------------------------------------------------------

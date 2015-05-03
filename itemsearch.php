@@ -33,21 +33,17 @@
 		<center><table>
 		<tr>
 			<th> Category </th>
-			<th> Product Name </th>
-			<th> Vendor</th>
+			<th> Product</th>
 			<th> Description </th>
 			<th> Price </th>
-			<th> Product Number </th>
-			<th> Features </th>
-			<th> Image</th>
-			<th> Constraints </th>
-			<th> Quantity </th>
 		</tr>
 
 		<?php
 					if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$productname = $_POST['productname'];
-				$q = 'SELECT * from '.PRODUCT_TABLE::$NAME.' WHERE '.PRODUCT_TABLE::$PROD_NAME.' LIKE \'%'.$productname.'%\'';
+				$q = 'SELECT * from '.PRODUCT_TABLE::$NAME.' WHERE '.PRODUCT_TABLE::$PROD_NAME.' LIKE \'%'.$productname.'%\''
+                                                    .' AND '.PRODUCT_TABLE::$APPROVED.' = \'a\';';
+                                                    echo $q;
 				include("dbc.php");
 				$r = mysqli_query($dbc, $q);
 				if($r) {
@@ -55,16 +51,11 @@
 				while ($row = mysqli_fetch_array($r)){
 					echo "<tr>";
 					echo "<td>".$row['category']."</td>";
-					echo "<td>".$row['productname']."</td>";
-					echo "<td>".$row['vendorid']."</td>";
-					echo "<td>".$row['description']."</td>";
-					echo "<td>".$row['price']."</td>";
-					echo "<td>".$row['productnumber']."</td>";
-					echo "<td>".$row['features']."</td>";
-					echo '<td><img src="images/'.$row['image'].'" height="60" width="100"/></a></td>';
-					echo "<td>".$row['constraints']."</td>";
-					echo "<td>".$row['quantity']."</td>";
-					
+            echo '<td><a href="view_product.php?'.PRODUCT_TABLE::$PROD_ID.'='.$row[PRODUCT_TABLE::$PROD_ID].'">'.
+			'<img src="images/'.$row[PRODUCT_TABLE::$IMAGE].'" height="60" width="100"/></a></td>';
+            echo "<td>".$row[PRODUCT_TABLE::$CATEGORY]."</td>";
+            echo "<td>".$row[PRODUCT_TABLE::$DESCRIPTION]."</td>";
+            echo "<td>".$row[PRODUCT_TABLE::$PRICE]."</td>";					
 					echo "</tr>";
 				}
 				} else {
