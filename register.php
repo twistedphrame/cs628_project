@@ -134,11 +134,13 @@
 				</tr>
 				<tr>
 					<td>Address:</td>
-					<td><input type="text" name="<?php echo USER_TABLE::$ADDRESS; ?>"></td>
+					<td><input type="text" name="<?php echo USER_TABLE::$ADDRESS; ?>"
+						value = <?php if(isset($_POST['address'])) echo $_POST['address'] ?>></td>
 				</tr>
 				<tr>
 					<td>City:</td>
-					<td><input type="text" name="<?php echo USER_TABLE::$CITY; ?>"></td>
+					<td><input type="text" name="<?php echo USER_TABLE::$CITY; ?>"
+						value = <?php if(isset($_POST['city'])) echo $_POST['city'] ?>></td>
 				</tr>
 				<tr>
 					<td>State:</td>
@@ -162,15 +164,18 @@
 				</tr>
 				<tr>
 					<td>Zipcode:</td>
-					<td><input type="text" name="<?php echo USER_TABLE::$ZIP_CODE; ?>"></td>
+					<td><input type="text" name="<?php echo USER_TABLE::$ZIP_CODE; ?>"
+					value = <?php if(isset($_POST['zipcode'])) echo $_POST['zipcode'] ?>></td>
 				</tr>
 				<tr>
 					<td>Email:</td>
-					<td><input type="text" name="<?php echo USER_TABLE::$EMAIL; ?>"></td>
+					<td><input type="text" name="<?php echo USER_TABLE::$EMAIL; ?>"
+					value = <?php if(isset($_POST['email'])) echo $_POST['email'] ?>></td>
 				</tr>
 				<tr>
 					<td>Phone Number:</td>
-					<td><input type="text" name="<?php echo USER_TABLE::$PHONE; ?>"></td>
+					<td><input type="text" name="<?php echo USER_TABLE::$PHONE; ?>"
+					value = <?php if(isset($_POST['phone'])) echo $_POST['phone'] ?>></td>
 				</tr>
 				<tr>
 				<td></td>

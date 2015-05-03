@@ -98,7 +98,7 @@
 	</div> <!--content -->
 
 	<div id="footer">
-
+		<p style="text-align:center; color:white; font-size:12px;"> Copyright Monmouth University 2015</p>
 	</div>
 	</div> <!--container -->
 </body>

@@ -97,8 +97,8 @@
 	
 	</div>
 	
-	<div id = "footer">
-		<p>Copyright 2015 Monmouth University</p>
+	<div id="footer">
+		<p style="text-align:center; color:white; font-size:12px;"> Copyright Monmouth University 2015</p>
 	</div>
 	
 	</div>

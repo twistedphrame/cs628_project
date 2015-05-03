@@ -97,8 +97,7 @@
 	</div> <!--content -->
 
 	<div id="footer">
-		<p>Andrew Spaeth and Jordan Apgar</p> <!-- this page was based on code from Swethana's edit classes page we were given in class-->
-
+		<p style="text-align:center; color:white; font-size:12px;"> Copyright Monmouth University 2015</p>
 	</div>
 	</div> <!--container -->
 </body>
