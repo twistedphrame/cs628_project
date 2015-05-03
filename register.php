@@ -39,17 +39,17 @@
 				
 				$error = array(); //define an array
 			
-        if(empty($username)) $error[]= "You forgot to enter a user name.";
+				if(empty($username)) $error[]= "You forgot to enter a user name.";
 				if(empty($psword)) $error[]= "You forgot to enter a password.";
 				if($psword != ($psword2)) $error[] ="The passwords do not match.";
-				if(empty($fname)) $error[]= "You forgot to enter a first name.";
-				if(empty($lname)) $error[]= "You forgot to enter a last name.";
+				if(empty($fname) || is_numeric($fname) == true || $fname != 0) $error[]= "You did not enter a valid first name.";
+				if(empty($lname) || is_numeric($lname) == true || $lname != 0) $error[]= "You did not enter a valid last name.";
 				if(empty($address)) $error[]= "You forgot to enter an address.";
-				if(empty($city)) $error[]= "You forgot to enter a city.";
-				if(empty($state)) $error[]= "You forgot to enter a state.";
-				if(empty($zipcode)) $error[]= "You forgot to enter a zipcode.";
-				if(empty($email)) $error[]= "You forgot to enter an email.";
-				if(empty($phone)) $error[]= "You forgot to enter a phone number.";
+				if(empty($city) || is_numeric($city) == true || $city != 0) $error[]= "You did not enter a valid city";
+				if(empty($state) || is_numeric($state) == true || $state != 0) $error[]= "You did not enter a valid state.";
+				if(empty($zipcode)|| $zipcode == "0" || $zipcode < 0 || is_numeric($zipcode)== false ) $error[]= "You did not enter a valid zipcode";
+				if(empty($email) || $email != 0) $error[]= "You did not enter a valid email.";
+				if(empty($phone)|| $phone == "0") $error[]= "You did not enter a valid phone number.";
 				
 			
 				if(empty($error)){				

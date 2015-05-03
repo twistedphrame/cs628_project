@@ -51,15 +51,15 @@
 				$error = array(); //define an array
 			
 				if(empty($category)) $error[]= "You forgot to enter a category.";
-				if(empty($name) || is_numeric($name) == true || $name != 0) $error[]= "You forgot to enter a product name.";
-				if(empty($description) || is_numeric($description) == true || $description != 0) $error[]= "You forgot to enter a product description.";
-				if(empty($price) || $price == "0" || $price < 0 || is_numeric($price)== false ) $error[]= "You forgot to enter a product price.";
-				if(empty($productnum) || $productnum <=1 ) $error[]= "You forgot to enter a product number.";
-				if(empty($features) || is_numeric($features) == true || $features != 0) $error[]= "You forgot to enter product features.";
+				if(empty($name) || is_numeric($name) == true || $name != 0) $error[]= "You did not enter a valid product name.";
+				if(empty($description) || is_numeric($description) == true || $description != 0) $error[]= "You did not enter a valid product description.";
+				if(empty($price) || $price == "0" || $price < 0 || is_numeric($price)== false ) $error[]= "You did not enter a valid product price.";
+				if(empty($productnum) || $productnum <=1 ) $error[]= "You did not enter a valid product number.";
+				if(empty($features) || is_numeric($features) == true || $features != 0) $error[]= "You did not enter valid product features.";
 				if(empty($image)) $error[]= "You forgot to enter a product image.";
-				if(empty($constraints)|| is_numeric($constraints) == true || $constraints != 0) $error[]= "You forgot to enter product constraints.";
-				if(empty($discount) || $discount <= 0) $error[]= "You forgot to enter a product discount.";
-				if(empty($quantity) || $quantity == 0 || $quantity <=1) $error[]= "You forgot to enter a product quantity.";
+				if(empty($constraints)|| is_numeric($constraints) == true || $constraints != 0) $error[]= "You did not enter valid product constraints.";
+				if(empty($discount) || $discount <= 0) $error[]= "You did not enter a valid product discount.";
+				if(empty($quantity) || $quantity == 0 || $quantity <=1) $error[]= "You did not enter a valid product quantity.";
 				
 			
 				if(empty($error)){
