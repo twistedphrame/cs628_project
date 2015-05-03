@@ -43,7 +43,6 @@
 				$productname = $_POST['productname'];
 				$q = 'SELECT * from '.PRODUCT_TABLE::$NAME.' WHERE '.PRODUCT_TABLE::$PROD_NAME.' LIKE \'%'.$productname.'%\''
                                                     .' AND '.PRODUCT_TABLE::$APPROVED.' = \'a\';';
-                                                    echo $q;
 				include("dbc.php");
 				$r = mysqli_query($dbc, $q);
 				if($r) {
@@ -53,7 +52,6 @@
 					echo "<td>".$row['category']."</td>";
             echo '<td><a href="view_product.php?'.PRODUCT_TABLE::$PROD_ID.'='.$row[PRODUCT_TABLE::$PROD_ID].'">'.
 			'<img src="images/'.$row[PRODUCT_TABLE::$IMAGE].'" height="60" width="100"/></a></td>';
-            echo "<td>".$row[PRODUCT_TABLE::$CATEGORY]."</td>";
             echo "<td>".$row[PRODUCT_TABLE::$DESCRIPTION]."</td>";
             echo "<td>".$row[PRODUCT_TABLE::$PRICE]."</td>";					
 					echo "</tr>";
