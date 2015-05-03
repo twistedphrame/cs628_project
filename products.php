@@ -61,7 +61,6 @@
 		<center><table>  <!-- creates the table headers for the class records that will be displayed-->
 		<tr>
 			<th> Product </th>
-			<th> Category </th>
 			<th> Description </th>
 			<th> Price </th>
 		</tr>
@@ -71,7 +70,6 @@
 				echo "<tr>";
             echo '<td><a href="view_product.php?'.PRODUCT_TABLE::$PROD_ID.'='.$product[PRODUCT_TABLE::$PROD_ID].'">'.
 			'<img src="images/'.$product[PRODUCT_TABLE::$IMAGE].'" height="60" width="100"/></a></td>';
-            echo "<td>".$product[PRODUCT_TABLE::$CATEGORY]."</td>";
             echo "<td>".$product[PRODUCT_TABLE::$DESCRIPTION]."</td>";
             echo "<td>".$product[PRODUCT_TABLE::$PRICE]."</td>";
             echo "</tr>";
