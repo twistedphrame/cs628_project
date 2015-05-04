@@ -270,7 +270,8 @@
       }
       
             if($this->approved !== NULL) {
-        $array[] = PRODUCT_TABLE::$APPROVED . "='{$this->approved}'";
+              if($this->approved)
+                $array[] = PRODUCT_TABLE::$APPROVED . "='a'";
       }
       
       if($this->discount !== NULL) {
