@@ -36,13 +36,11 @@
                   ->insert($dbc);
       $vendor =  selectSingleCustomer($dbc, $product[PRODUCT_TABLE::$VEND_ID]);
       $subject = 'You made a sale!';
-      $message = "Hi ". $vendor[USER_TABLE::$FIRST_NAME] . ' A user has purchased: '.$product['selected_quantity']
-                  .' of item: '.$product[PRODUCT_TABLE::$PROD_NAME].'-'.$product[PRODUCT_TABLE::$PROD_NUM].'!';
+      $message = "Hi ". $vendor[USER_TABLE::$FIRST_NAME] . ' A user has purchased one of your products!';
       $headers = 'From: Online Shopping System' . "\r\n" .
       'Reply-To: ' . "\r\n" .	'X-Mailer: PHP/' . phpversion();
       mail($vendor[USER_TABLE::$EMAIL], $subject, $message, $headers);
-    }
-    
+    }    
     $subject = 'Thank you for your order!';
     $message = "Hi ". $user[USER_TABLE::$FIRST_NAME] . ' Thank you for your order!';
     $headers = 'From: Online Shopping System' . "\r\n" .
